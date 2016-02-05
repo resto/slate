@@ -129,7 +129,7 @@
 <pre class="highlight shell"><code>http://api.resto.ru/places.json?ids<span class="o">=</span>7477,8&amp;include<span class="o">=</span>title,id,lat,lat
 </code></pre>
 
-<p>Данные выдаются только по явному запросу. Из полей - только id&#39;ы, остальные поля и страницы нужно запрашивать явно. По умолчанию выдается только первая страница (даже если явно пейджинация не была явно запрошена). Для указания полей используется опция <code class="prettyprint">include</code>.</p>
+<p>Данные выдаются только по явному запросу. Из полей - только ID&#39;ы, остальные поля и страницы нужно запрашивать явно. По умолчанию выдается только первая страница (даже если явно пейджинация не была явно запрошена). Для указания полей используется опция <code class="prettyprint">include</code>.</p>
 
 <p>Если у заведения отсутствует какое-либо значение, то она просто не выводится. Например, если нет status&#39;а (т.е. заведение не относится к &ldquo;Закрытым&rdquo;, &ldquo;Новым&rdquo; и т.п.)</p>
 
@@ -401,12 +401,12 @@ http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
 
 <p>/<em>api/action_XXX/partner</em>YYY</p>
 
-<p>где XXX - имя команды, YYY - id партнёра</p>
+<p>где XXX - имя команды, YYY - ID партнёра</p>
 
 <h2 id="order">order</h2>
 
 <blockquote>
-<p>Формат:</p>
+<p>Пример запроса:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"placeid"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
@@ -426,10 +426,10 @@ http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>Order - заказ столика.</p>
+<p>Заказ любого столика в ресторане.</p>
 
 <aside class="notice">
-Чтобы сделать заказ столика нужно знать id заведения. По id заведения в базе Resto узнать id в базе ZON, можно через action_placeinforesto:<br/>
+Чтобы сделать заказ столика нужно знать ID заведения. По ID заведения в базе Resto узнать ID в базе ZON, можно через запрос `placeinforesto`:<br/>
 <code>curl -sd 'key=***&restoid=1021' http://z-o-n.ru/_api/action_placeinforesto/partner_**</code>
 <br/>
 <br/>
@@ -449,8 +449,7 @@ http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
 
 <p>Где <code class="prettyprint">codeanswer</code> - общий итог работы скрипта, <code class="prettyprint">data</code> - конкретизация итогов работы (зависит от codeanswer).</p>
 
-<ul>
-<li>codeanswer
+<p>Ответы <code class="prettyprint">codeanswer</code>:</p>
 
 <ul>
 <li>OK - &ldquo;заказ успешно добавлен&rdquo;, возможные значения в <code class="prettyprint">data</code>:
@@ -488,28 +487,349 @@ http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
 <li>10000 - Нет подходящих столиков с такими характеристиками</li>
 </ul></li>
 <li>ERR - &ldquo;ошибка во время выполнения&rdquo;</li>
-</ul></li>
 </ul>
 
 <h2 id="orderv">orderv</h2>
 
+<blockquote>
+<p>Пример запроса:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"placeid"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"order"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"reserved_table_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1230</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"minutes"</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"day"</span><span class="p">:</span><span class="w"> </span><span class="mi">19</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"month"</span><span class="p">:</span><span class="w"> </span><span class="mi">07</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"year"</span><span class="p">:</span><span class="w"> </span><span class="mi">2011</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some name"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+7 (112) 121-21-21"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email@mail.ru"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"persons"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"partner_comment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some comment"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"comment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some comment"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Заказ определенного столика в ресторане.</p>
+
+<p>Orderv аналогичен order, но в параметрах заказа передается ID столика (через параметр <code class="prettyprint">reserved_table_id</code>)</p>
+
+<aside class="notice">
+Выяснить ID столика можно с помощью метода <code>gettablelist</code>.
+<br/>
+<br/>
+Пример gettablelist-запроса в ruby:<br/>
+<code>
+params = {'id' => 2, 'persons' => 2, 'smoke' => 1, 'key' => '***'}<br/>
+url = 'http://z-o-n.ru/_api/action_gettablelist/partner_**'<br/>
+tables_info = JSON.parse RestClient.post(url, params, :content_type => :json, :accept => :json).body<br/>
+table_id = tables_info['tables'].last['table_id']
+</code>
+</aside>
+
 <h2 id="changedorders">changedorders</h2>
+
+<blockquote>
+<p>Пример запроса:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w"> </span><span class="nt">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2013-09-05 16:22:06"</span><span class="p">,</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1230</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>Возвращает структуру вида:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"200223"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"тест"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"orderdatetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2013-08-21 17:40:45"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"userpartnerid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"place"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test@test.ru"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"statuses"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+       </span><span class="nt">"0"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2013-08-21 17:40:45"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+       </span><span class="p">},</span><span class="w">
+       </span><span class="nt">"1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+         </span><span class="nt">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2013-08-21 19:25:26"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="w">
+       </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"201753"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Марина"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"orderdatetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2013-08-21 17:40:45"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"userpartnerid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"place"</span><span class="p">:</span><span class="w"> </span><span class="mi">11014</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mixxxxto@gmail.ru"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"statuses"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"0"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2013-08-26 11:45:21"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"datetime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2013-08-26 12:46:09"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Все измененные бронь, начиная с времени предыдущей синхронизаци (???)</p>
+
+<p><strong>Параметры запроса:</strong></p>
+
+<ul>
+<li><code class="prettyprint">datetime</code> - дата-время в формате &ldquo;2013-09-05 16:22:06&rdquo;</li>
+<li><code class="prettyprint">id</code> - ID заказа (необязательный параметр, если равен нулю - передается все)</li>
+</ul>
+
+<p><strong>Возвращаемые значения:</strong></p>
+
+<ul>
+<li>name - имя, указанное в заказе</li>
+<li>orderdatetime - время брони</li>
+<li>userpartnerid - ID заказчика у партнера</li>
+<li>place - заведение, куда сделан заказ</li>
+<li>email - почта, указанная в заказе</li>
+<li>datetime - время изменения статуса</li>
+<li>status - установленный статус</li>
+</ul>
 
 <h2 id="changedordersrestoall">changedordersrestoall</h2>
 
+<p>Все измененные выполненные брони, начиная с времени предыдущей синхронизации.</p>
+
+<p>Входные параметры и возвращаемые данные аналогичны <code class="prettyprint">changedorders</code>.</p>
+
 <h2 id="search">search</h2>
+
+<blockquote>
+<p>Пример запроса:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"рно"</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>Пример ответа:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"arr"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"0"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"place_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"place_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Иль Форно / Il Forno"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"place_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">10056</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"place_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ливорно"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"place_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12203</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"place_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Примерное поведение"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"3"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"place_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">10761</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"place_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Черноморская Ривьера"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Поиск ресторана. В параметре <code class="prettyprint">name</code> передается искомая подстрока.</p>
 
 <h2 id="gettablelist">gettablelist</h2>
 
+<blockquote>
+<p>Пример запроса</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"persons"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"smoke"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"year"</span><span class="p">:</span><span class="w"> </span><span class="mi">2012</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"month"</span><span class="p">:</span><span class="w"> </span><span class="mi">06</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"day"</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"minutes"</span><span class="p">:</span><span class="w"> </span><span class="mi">55</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>Пример ответа:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"tables"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"0"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"table_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">86</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://z-o-n.ru/i/tables/table86.png"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"140x102url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://z-o-n.ru/i/tables/140x102/table86.png"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"229x238url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://z-o-n.ru/i/tables/229x238/table86.png"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"table_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">89</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://z-o-n.ru/i/tables/table89.png"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://z-o-n.ru/i/tables/table86.png"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"140x102url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://z-o-n.ru/i/tables/140x102/table89.png"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"229x238url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://z-o-n.ru/i/tables/229x238/table89.png"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>Пример curl-вызова:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -d <span class="s1">'key=**&amp;id=12081&amp;&amp;year=2012&amp;month=08&amp;day=04&amp;hour=15&amp;minutes=55&amp;persons=1'</span> http://z-o-n.ru/_api/action_gettablelist/partner_<span class="k">**</span>&lt;code&gt;
+</code></pre>
+
+<p>Список столиков указанного ресторана, соответствующие запрашиваемым параметрам.</p>
+
+<p><strong>Параметры запроса:</strong></p>
+
+<ul>
+<li>id - ID ресторана</li>
+<li>persons - количество персон (необязательный параметр, если не передан, то выводятся все доступные столики)</li>
+<li>smoke - зал для курящих или не курящих (возможные значения: 1, 0; необязательный параметр, если не передан, то выводятся все доступные столики)</li>
+<li>время и дата брони (необязательный параметр):
+
+<ul>
+<li>year</li>
+<li>month</li>
+<li>day</li>
+<li>hour</li>
+<li>minutes</li>
+</ul></li>
+</ul>
+
+<aside class="notice">
+Если переданы все параметры даты-времени, то выводятся только свободные на это времени столики. Если хотя бы один из параметров даты-времени не передан, то выводятся все столики.
+</aside>
+
+<p><strong>Возвращаемые значения:</strong></p>
+
+<ul>
+<li>total - количество найденных столов</li>
+<li>tables - список столов
+
+<ul>
+<li>table_id - ID столика</li>
+<li>url - ссылка на фото столика</li>
+<li>140x102url - ссылка на фото столика 140x102</li>
+<li>229x238url - ссылка на фото столика 229x238</li>
+</ul></li>
+</ul>
+
+<aside class="notice">
+URL'ы фотографий (url, 140x102url, 229x238url) выдаются только в том случае, если они есть в наличии.
+</aside>
+
 <h2 id="placeinforesto">placeinforesto</h2>
+
+<blockquote>
+<p>Пример запроса:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="nt">"restoid"</span><span class="p">:</span><span class="w"> </span><span class="mi">7569</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>Пример ответа:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"place_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"place_graph"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"zals"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"0"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+         </span><span class="nt">"zal_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"zal_pict"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://z-o-n.ru/i/zals/zal10.png"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"zal_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Зал №1"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"zal_smoke"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"zal_kol_seat"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+         </span><span class="nt">"zal_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"zal_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Зал №2"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"zal_smoke"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"zal_kol_seat"</span><span class="p">:</span><span class="w"> </span><span class="mi">56</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+         </span><span class="nt">"zal_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"zal_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Нижний зал"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"zal_smoke"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"zal_kol_seat"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Информация о ресторане по ID ресторана в базер Resto.</p>
+
+<p><strong>Возвращаемые значения:</strong></p>
+
+<ul>
+<li>place_id - ID по версии ЗОН</li>
+<li>place_graph -  наличие визуальной формы заказа</li>
+<li>zals - массив из залов:
+
+<ul>
+<li>zal_name - название зала</li>
+<li>zal_smoke - можно ли курить в зале</li>
+<li>zal_kol_seat - число посадочных мест в зале</li>
+</ul></li>
+</ul>
 
 <h2 id="findemailbyphone">findemailbyphone</h2>
 
+<p>findemailbyphone: в массиве POST должен содержаться номер телефона клиента
+           POST =&gt; Array
+            (
+                [phonenumb] =&gt; +7 (000) 545-00-45 (ровно 18 символов)
+            )
+        (возвращает строку с емейлом клиента, если есть;
+        или пустую строку в обратом случае)</p>
+
 <h2 id="worktime">worktime</h2>
+
+<p>worktime: в массиве POST должен содержаться Id ресторана по версии РЕСТО
+           POST =&gt; Array
+            (
+                [restoid] =&gt; 1
+            )
+        (возвращает время приема заказов заведением)</p>
 
 <h2 id="gettablecoord">gettablecoord</h2>
 
+<p>gettablecoord: отдаёт картинку зала и координаты столика на ней
+            принимает: ID столика (table_id ). Пример:
+           POST =&gt; Array
+            (
+                [table_id] =&gt; 86
+            )
+        возвращаемая структура, пример
+            Array
+            (
+                [zalimageurl] =&gt; https://z-o-n.ru/i/zals/zal13.png
+                [zalimagesmallurl] =&gt; https://z-o-n.ru/i/zals/297x242/zal13.png
+                [table_coords] =&gt; 330,233,370,262
+            )
+            здесь table_coords - 4 числа разделенные запятыми, соответственно координаты левого верхнего угла прямоугольника столика и координаты правого нижнего угла
+                (left1, top1,  left2, top2)</p>
+
 <h2 id="snear">snear</h2>
+
+<p>snear: в массиве POST должны содержаться координаты места
+        POST =&gt; Array
+            (
+                [latitude] =&gt; 55.45 (широта)
+                [longitude] =&gt; 37.36 (долгота)
+            )
+        (возвращает массив со структурой идентичной структуре для случая action=search, см. выше
+            Всегда 10 ресторанов. Упорядочены по удаленности - сначала ближайшие)</p>
 
       </div>
       <div class="dark-box">
