@@ -1,201 +1,265 @@
 ---
 title: Resto API
 
-search: true
+search: false
 
 ---
 
-# Resto/ZON API
+<h1 id="Resto-ZON-API">Resto API</h1>
 
-## Доступ к API
+<h2 id="Доступ-к-API">Доступ к API</h2>
 
-Аутентификация делается через http-base-auth, запросы к Resto API - GET. Домен - api.resto.ru.
+Версия 1.0.
 
-## Выдача_
+Аутентификация делается через http-base-auth. Запросы к Resto API выполняются http-методом GET в домене api.resto.ru.
 
-Формат - JSON.
+<h2 id="Выдача">Выдача</h2>
 
-### Ленивая выдача_
+API возвращает данные в формате JSON.
 
-По умолчанию выдается только первая страница (даже если явно пейджинг не был явно запрошен) и из полей - только id'ы, остальные поля и страницы нужно запрашивать явно. Для указания полей используется опция `include`
+<h3 id="Выдача">"Ленивая" выдача</h3>
 
-Пример:
+> Пример запроса:
 
+```shell
 http://api.resto.ru/places.json?ids=7477,8&include=title,id,lat,lat
+```
 
-Если у заведения отсутствует какое-либо значение (например нет status'а - заведение не относится к "Временно закрытом", "Новым" и т.п.), то она просто не выводится.
+Данные выдаются только по явному запросу. Из полей - только id'ы, остальные поля и страницы нужно запрашивать явно. По умолчанию выдается только первая страница (даже если явно пейджинация не была явно запрошена). Для указания полей используется опция `include`.
 
-### Пейджинация_
+Если у заведения отсутствует какое-либо значение, то она просто не выводится. Например, если нет status'а (т.е. заведение не относится к "Закрытым", "Новым" и т.п.)
+
+<h3 id="Пейджинация">Пейджинация</h3>
+
+> Примеры пейджинации:
+
+```shell
+http://api.resto.ru/places.json?per_page=3
+http://api.resto.ru/places.json?region=spb&page=2
+```
 
 По умолчанию выдается только первая страница (даже если явно пейджинг не был явно запрошен).
 
 Управлять пейджинацией можно через не обязательные параметры `per_page` (количество объектов на "странице", по умолчанию - 10) и `page` - номер страницы (по умолчанию - 1).
 
-Пример:
+<h1 id="Заведения">Заведения</h1>
 
-http://api.resto.ru/places.json?per_page=3
+> Выборка заведений по id'ам:
 
-http://api.resto.ru/places.json?region=spb&page=2
+```shell
+http://api.resto.ru/places.json?ids=7477,4846
+http://api.resto.ru/places.json?id=7477,4846
+```
 
-# Заведения (places)
+> С координатами:
+
+```shell
+http://api.resto.ru/places.json?include=title,id,lat,lat&long=37.5&lat=55.7&page=2
+```
+
+> В радиусе (указываются метры):
+
+```shell
+http://api.resto.ru/places.json?include=title,id&long=37.5&lat=55.7&radius=300000
+```
+
+> С адресом:
+
+```shell
+http://api.resto.ru/places.json?include=title,address&long=37.5&lat=55.7&page=2
+```
+
+> С картинками:
+
+```shell
+http://api.resto.ru/places.json?id=55&include=title,photos,logo,panorama
+```
+
+> С thumbnail'ом smallbox:
+
+```shell
+http://api.resto.ru/places.json?ids=7477&include=title,smallbox
+```
+
+> С указанной особенностью (станция метро в данном случае):
+
+```shell
+http://api.resto.ru/places.json?include=title,price-range,long,lat&with=dinamo
+```
+
+> С рейтингом ZON'а:
+
+```shell
+http://api.resto.ru/places.json?ids=9786&include=title,zon_rating
+```
+
+> Заведения, в которых можно забронировать столик через ZON:
+
+```shell
+http://api.resto.ru/places.json?ids=300392&include=title,zon_order_possible
+```
+
+> Со статусом заведения:
+
+```shell
+http://api.resto.ru/places.json?with=new&include=title,status
+```
+
+> Заведения указанного региона:
+
+```shell
+http://api.resto.ru/places.json?region=spb
+```
+
+> С кольцом (Садовым, Бульварным и т.п.):
+
+```shell
+http://api.resto.ru/places.json?with=out-of-town&include=title,ring
+```
+
+> Заведения, измененные с указанной даты:
+
+```shell
+http://api.resto.ru/places.json?include=title,updated&after=2015-04-01T13:15:58+04:00
+```
 
 Все параметры возможные при запросе places:
 
-* особенности:
-  * properties
-  * title
-  * address
-  * phone
-  * lat
-  * long
+* особенности (т.е. опции, которые можно использовать для `include`):
+  * properties (все особенности заведения)
+  * title (название)
+  * address (адрес)
+  * phone (телефоны)
+  * lat (широта геокоординаты)
+  * long (долгота геокоординаты)
   * cuisine (кухни)
-  * price-range
-  * subway-station
+  * price-range (средний счет)
+  * subway-station (станции метро)
   * type (тип заведения: ресторан, кафе и т.п.)
   * zon_rating
   * order_possible
   * description
-  * ring
-  * status ("Закрытое", "Временно закрытое", "Новое" и т.п.)
+  * ring (кольца: Бульварное, Садовое и т.п.)
+  * status (особый статус: закрытое, новое и т.п.)
 * картинки (выдают url или массив url'ов):
   * has_photos
-  * photos
+  * photos (фотографии заведения)
   * smallbox (64x64px, выдается одна картинка, логика ее выбора - на стороне API)
   * middlebox (96x96px, выдается одна картинка, логика ее выбора - на стороне API)
-  * logo (в приложении не используется)
-  * panorama (в приложении не используется)
+  * logo (логотип)
+  * panorama (круговая панорама)
 * фильтры:
-  * with (получить список возможных значений для `with` и `with_any` можно через [словари](#vocabularies))
-  * with_any 
-  * starts_with
+  * with (получить список возможных значений для `with` и `with_any` можно через [словари](#Словари))
+  * with_any
+  * starts_with (символы, с которых начинается название)
   * ids
-  * region
+  * id
+  * region (фильтр по городам)
 * геопозиция (действует как фильтр):
   * lat
   * long
-  * radius
+  * radius (расстояние в метрах от указанной геокоординаты)
 * пейджинация:
-  * page
-  * per_page
+  * page (номер страницы)
+  * per_page (количество заведений на странице)
 * сортировка:
-  * sort_by
+  * sort_by ([подробно о сортировке](#Сортировка))
 * поиск по title:
-  * search
-
-Выборка заведений по id'ам:
-
-http://api.resto.ru/places.json?ids=7477,4846
-
-http://api.resto.ru/places.json?id=7477,4846
-
-С координатами:
-
-http://api.resto.ru/places.json?include=title,id,lat,lat&long=37.5&lat=55.7&page=2
-
-В радиусе (указываются метры):
-
-http://api.resto.ru/places.json?include=title,id&long=37.5&lat=55.7&radius=300000
-
-С адресом:
-
-http://api.resto.ru/places.json?include=title,address&long=37.5&lat=55.7&page=2
-
-С картинками:
-
-http://api.resto.ru/places.json?id=55&include=title,photos,logo,panorama
-
-С thumbnail'ом smallbox:
-
-http://api.resto.ru/places.json?ids=7477&include=title,smallbox
-
-С указанной особенностью (станция метро в данном случае):
-
-http://api.resto.ru/places.json?include=title,price-range,long,lat&with=dinamo
-
-С рейтингом ZON'а:
-
-http://api.resto.ru/places.json?ids=9786&include=title,zon_rating
-
-Заведения, в которых можно забронировать столик через ZON:
-
-http://api.resto.ru/places.json?ids=300392&include=title,zon_order_possible
+  * search ([подробно о поиске](#Поиск))
 
 
-Со статусом заведения:
+<h2 id="Сортировка">Сортировка</h2>
 
-http://api.resto.ru/places.json?with=new&include=title,status
+>Сортировка по геоособенности:
 
-
-Заведения указанного региона:
-
-http://api.resto.ru/places.json?region=spb
-
-С кольцом (Садовым, Бульварным и т.п.):
-
-http://api.resto.ru/places.json?with=out-of-town&include=title,ring
-
-Заведения измененные с указанной даты:
-
-http://api.resto.ru/places.json?include=title,updated&after=2015-04-01T13:15:58+04:00
-
-
-### Сортировка_
-
-Если в запросе указана исходная точка, то сортировка делается по удаленности от этой точки. Во всех прочих случаях сортировка делается по `title`. Можно явно указать сортировку через параметр `sort_by`.
-При сортировке по геоособенности (метро, точка и т.п.) выдается `distance` - расстояние до этой точки.
-
-С сортировкой по геоособенности:
-
+```shell
 http://api.resto.ru/places.json?include=title&with=dinamo&sort_by=dinamo
+```
 
-## Поиск_
+Если в запросе указана исходная точка, то сортировка делается по расстоянию от этой точки. Во всех прочих случаях сортировка делается по `title`. Можно явно указать сортировку через параметр `sort_by`.
+При сортировке по геоособенности (метро, точка и т.п.) выдается расстояние до этой точки (поле `distance`).
 
-Для поиска по названию заведения можно использовать `search` или `starts_with`
+<h2 id="Поиск">Поиск</h2>
 
-Простой пример поиска:
+> Пример поиска:
 
+```shell
 http://api.resto.ru/places.json?include=title,id&starts_with=де
+```
 
-Поиск с фильтрами:
+> Поиск с фильтрами:
 
+```shell
 http://api.resto.ru/places.json?include=title,id&long=37.84&lat=55.63&radius=300&page=2&per_page=10&starts_with=де
+```
 
-# Словари (vocabularies)
+Для поиска по названию заведения можно использовать `search` (поиск по подстроке) или `starts_with` (поиск по первым буквам названия).
 
-Для построения навигации можно использовать иерархические конструкции (vocabularies), которые запрашиваются у API. Таким образом приложение получает набор опций, которые можно использовать при запросах (через `with`, `with_any`), и управление навигацией перекладывается на API. Т.е. необязательно обновлять приложение при добавлении новой опции и т.п.
+<h1 id="Словари">Словари</h1>
 
-Выводятся vocabularies в виде хэша.
+> Полный список словарей:
 
+```shell
 http://api.resto.ru/vocabularies.json
+```
 
-## Локации (location)
+Для получения списка особенностей или построения иерархической навигации можно запросить у API т.н. словари (vocabularies), которые выводятся в виде хэша.
 
-Выборки по местоположению (aka геоособенность, т.е. особенность имеющая координату). Сейчас это только метро.
+Полученные опции можно использовать для запросов (через `with`, `with_any`).
 
+<h2 id="Локации">Локации</h2>
+
+> Локации для региона по умолчанию (Москва):
+
+```shell
 http://api.resto.ru/vocabularies/locations.json
+```
 
-Локации для региона:
+> Локации для указанного региона:
 
+```shell
 http://api.resto.ru/vocabularies/locations.json?region=spb
+```
 
-## Особенности (properties)
+Локация (aka геоособенность), это особенность, имеющая координату.
+
+<aside class="notice">Пока локации это только станции метро.</aside>
+
+
+<h2 id="Особенности">Особенности</h2>
+
+> Запрос особенностей:
+
+```shell
+http://api.resto.ru/vocabularies/properties.json
+```
 
 Набор всевозможных параметров заведений.
 
-http://api.resto.ru/vocabularies/properties.json
+<h1 id="Регионы">Регионы</h1>
 
-# Регионы (regions)
+> Список регионов:
 
-Список регионов:
-
+```shell
 http://api.resto.ru/regions.json
+```
 
-Регионы с русской локалью:
+> Регионы с русской локалью:
 
+```shell
 http://api.resto.ru/regions.json?locale=ru
+```
 
-Информация по указанному региону:
+> Информация по указанному региону:
 
+```shell
 http://api.resto.ru/regions.json?ids=msk
+```
 
+> Заведения указанного Санкт-Петербурга, вторая страница:
+
+```shell
 http://api.resto.ru/places.json?region=spb&page=2
+```
+
+В выдаче можно запрашивать только заведения указанного города (региона). Список регионов и их идентификаторы (которые используются для фильтров) можно получить через список регионов.
