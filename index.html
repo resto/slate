@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Reference</title>
+    <title>Resto API</title>
 
     <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print.css" rel="stylesheet" media="print" />
@@ -91,7 +91,7 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;cURL&quot;,&quot;ruby&quot;,&quot;python&quot;]">
+  <body class="index" data-languages="[]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -100,10 +100,8 @@
     </a>
     <div class="tocify-wrapper">
       <img src="images/logo.png" />
+      <div style="position: absolute; top: 13px; left: 70px; color: white; font: bold 30px/45px Helvetica, Arial, sans-serif;">Resto</div>
         <div class="lang-selector">
-              <a href="#" data-language-name="cURL">cURL</a>
-              <a href="#" data-language-name="ruby">ruby</a>
-              <a href="#" data-language-name="python">python</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -111,236 +109,228 @@
         <ul class="search-results"></ul>
       <div id="toc">
       </div>
-        <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-            <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
-        </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id="introduction">Introduction</h1>
+        <h1 id="resto-zon-api">Resto/ZON API</h1>
 
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+<h2 id="api">Доступ к API</h2>
 
-<p>We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<p>Аутентификация делается через http-base-auth, запросы к Resto API - GET. Домен - api.resto.ru.</p>
 
-<p>This example API documentation page was created with <a href="https://github.com/tripit/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&rsquo;s documentation.</p>
+<h2 id="_">Выдача_</h2>
 
-<h1 id="authentication">Authentication</h1>
+<p>Формат - JSON.</p>
 
-<blockquote>
-<p>To authorize, use this code:</p>
-</blockquote>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<h3 id="_">Ленивая выдача_</h3>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre>
-<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<p>По умолчанию выдается только первая страница (даже если явно пейджинг не был явно запрошен) и из полей - только id&#39;ы, остальные поля и страницы нужно запрашивать явно. Для указания полей используется опция <code class="prettyprint">include</code></p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre>
-<pre class="highlight shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre>
+<p>Пример:</p>
 
-<blockquote>
-<p>Make sure to replace <code class="prettyprint">meowmeowmeow</code> with your API key.</p>
-</blockquote>
+<p>http://api.resto.ru/places.json?ids=7477,8&amp;include=title,id,lat,lat</p>
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
+<p>Если у заведения отсутствует какое-либо значение (например нет status&#39;а - заведение не относится к &ldquo;Временно закрытом&rdquo;, &ldquo;Новым&rdquo; и т.п.), то она просто не выводится.</p>
 
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
+<h3 id="_">Пейджинация_</h3>
 
-<p><code class="prettyprint">Authorization: meowmeowmeow</code></p>
+<p>По умолчанию выдается только первая страница (даже если явно пейджинг не был явно запрошен).</p>
 
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
+<p>Управлять пейджинацией можно через не обязательные параметры <code class="prettyprint">per_page</code> (количество объектов на &ldquo;странице&rdquo;, по умолчанию - 10) и <code class="prettyprint">page</code> - номер страницы (по умолчанию - 1).</p>
 
-<h1 id="kittens">Kittens</h1>
+<p>Пример:</p>
 
-<h2 id="get-all-kittens">Get All Kittens</h2>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<p>http://api.resto.ru/places.json?per_page=3</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre>
-<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<p>http://api.resto.ru/places.json?region=spb&amp;page=2</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre>
-<pre class="highlight shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre>
+<h1 id="places">Заведения (places)</h1>
 
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
+<p>Все параметры возможные при запросе places:</p>
 
-<p>This endpoint retrieves all kittens.</p>
+<ul>
+<li>особенности:
 
-<h3 id="http-request">HTTP Request</h3>
+<ul>
+<li>properties</li>
+<li>title</li>
+<li>address</li>
+<li>phone</li>
+<li>lat</li>
+<li>long</li>
+<li>cuisine (кухни)</li>
+<li>price-range</li>
+<li>subway-station</li>
+<li>type (тип заведения: ресторан, кафе и т.п.)</li>
+<li>zon_rating</li>
+<li>order_possible</li>
+<li>description</li>
+<li>ring</li>
+<li>status (&ldquo;Закрытое&rdquo;, &ldquo;Временно закрытое&rdquo;, &ldquo;Новое&rdquo; и т.п.)</li>
+</ul></li>
+<li>картинки (выдают url или массив url&#39;ов):
 
-<p><code class="prettyprint">GET http://example.com/api/kittens</code></p>
+<ul>
+<li>has_photos</li>
+<li>photos</li>
+<li>smallbox (64x64px, выдается одна картинка, логика ее выбора - на стороне API)</li>
+<li>middlebox (96x96px, выдается одна картинка, логика ее выбора - на стороне API)</li>
+<li>logo (в приложении не используется)</li>
+<li>panorama (в приложении не используется)</li>
+</ul></li>
+<li>фильтры:
 
-<h3 id="query-parameters">Query Parameters</h3>
+<ul>
+<li>with (получить список возможных значений для <code class="prettyprint">with</code> и <code class="prettyprint">with_any</code> можно через <a href="#vocabularies">словари</a>)</li>
+<li>with_any </li>
+<li>starts_with</li>
+<li>ids</li>
+<li>region</li>
+</ul></li>
+<li>геопозиция (действует как фильтр):
 
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
-</tr>
-<tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
-</tr>
-</tbody></table>
+<ul>
+<li>lat</li>
+<li>long</li>
+<li>radius</li>
+</ul></li>
+<li>пейджинация:
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+<ul>
+<li>page</li>
+<li>per_page</li>
+</ul></li>
+<li>сортировка:
 
-<h2 id="get-a-specific-kitten">Get a Specific Kitten</h2>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<ul>
+<li>sort_by</li>
+</ul></li>
+<li>поиск по title:
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre>
-<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<ul>
+<li>search</li>
+</ul></li>
+</ul>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre>
-<pre class="highlight shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre>
+<p>Выборка заведений по id&#39;ам:</p>
 
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<p>http://api.resto.ru/places.json?ids=7477,4846</p>
 
-<p>This endpoint retrieves a specific kitten.</p>
+<p>http://api.resto.ru/places.json?id=7477,4846</p>
 
-<aside class="warning">Inside HTML code blocks like this one, you can&rsquo;t use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+<p>С координатами:</p>
 
-<h3 id="http-request">HTTP Request</h3>
+<p>http://api.resto.ru/places.json?include=title,id,lat,lat&amp;long=37.5&amp;lat=55.7&amp;page=2</p>
 
-<p><code class="prettyprint">GET http://example.com/kittens/&lt;ID&gt;</code></p>
+<p>В радиусе (указываются метры):</p>
 
-<h3 id="url-parameters">URL Parameters</h3>
+<p>http://api.resto.ru/places.json?include=title,id&amp;long=37.5&amp;lat=55.7&amp;radius=300000</p>
 
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
-</tr>
-</tbody></table>
+<p>С адресом:</p>
 
-          <h1 id="errors">Errors</h1>
+<p>http://api.resto.ru/places.json?include=title,address&amp;long=37.5&amp;lat=55.7&amp;page=2</p>
 
-<aside class="notice">This error section is stored in a separate file in `includes/_errors.md`. Slate allows you to optionally separate out your docs into many files&hellip;just save them to the `includes` folder and add them to the top of your `index.md`&rsquo;s frontmatter. Files are included in the order listed.</aside>
+<p>С картинками:</p>
 
-<p>The Kittn API uses the following error codes:</p>
+<p>http://api.resto.ru/places.json?id=55&amp;include=title,photos,logo,panorama</p>
 
-<table><thead>
-<tr>
-<th>Error Code</th>
-<th>Meaning</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>400</td>
-<td>Bad Request &ndash; Your request sucks</td>
-</tr>
-<tr>
-<td>401</td>
-<td>Unauthorized &ndash; Your API key is wrong</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Forbidden &ndash; The kitten requested is hidden for administrators only</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Not Found &ndash; The specified kitten could not be found</td>
-</tr>
-<tr>
-<td>405</td>
-<td>Method Not Allowed &ndash; You tried to access a kitten with an invalid method</td>
-</tr>
-<tr>
-<td>406</td>
-<td>Not Acceptable &ndash; You requested a format that isn&rsquo;t json</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone &ndash; The kitten requested has been removed from our servers</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&rsquo;m a teapot</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests &ndash; You&rsquo;re requesting too many kittens! Slow down!</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error &ndash; We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable &ndash; We&rsquo;re temporarially offline for maintanance. Please try again later.</td>
-</tr>
-</tbody></table>
+<p>С thumbnail&#39;ом smallbox:</p>
+
+<p>http://api.resto.ru/places.json?ids=7477&amp;include=title,smallbox</p>
+
+<p>С указанной особенностью (станция метро в данном случае):</p>
+
+<p>http://api.resto.ru/places.json?include=title,price-range,long,lat&amp;with=dinamo</p>
+
+<p>С рейтингом ZON&#39;а:</p>
+
+<p>http://api.resto.ru/places.json?ids=9786&amp;include=title,zon_rating</p>
+
+<p>Заведения, в которых можно забронировать столик через ZON:</p>
+
+<p>http://api.resto.ru/places.json?ids=300392&amp;include=title,zon_order_possible</p>
+
+<p>Со статусом заведения:</p>
+
+<p>http://api.resto.ru/places.json?with=new&amp;include=title,status</p>
+
+<p>Заведения указанного региона:</p>
+
+<p>http://api.resto.ru/places.json?region=spb</p>
+
+<p>С кольцом (Садовым, Бульварным и т.п.):</p>
+
+<p>http://api.resto.ru/places.json?with=out-of-town&amp;include=title,ring</p>
+
+<p>Заведения измененные с указанной даты:</p>
+
+<p>http://api.resto.ru/places.json?include=title,updated&amp;after=2015-04-01T13:15:58+04:00</p>
+
+<h3 id="_">Сортировка_</h3>
+
+<p>Если в запросе указана исходная точка, то сортировка делается по удаленности от этой точки. Во всех прочих случаях сортировка делается по <code class="prettyprint">title</code>. Можно явно указать сортировку через параметр <code class="prettyprint">sort_by</code>.
+При сортировке по геоособенности (метро, точка и т.п.) выдается <code class="prettyprint">distance</code> - расстояние до этой точки.</p>
+
+<p>С сортировкой по геоособенности:</p>
+
+<p>http://api.resto.ru/places.json?include=title&amp;with=dinamo&amp;sort_by=dinamo</p>
+
+<h2 id="_">Поиск_</h2>
+
+<p>Для поиска по названию заведения можно использовать <code class="prettyprint">search</code> или <code class="prettyprint">starts_with</code></p>
+
+<p>Простой пример поиска:</p>
+
+<p>http://api.resto.ru/places.json?include=title,id&amp;starts_with=де</p>
+
+<p>Поиск с фильтрами:</p>
+
+<p>http://api.resto.ru/places.json?include=title,id&amp;long=37.84&amp;lat=55.63&amp;radius=300&amp;page=2&amp;per_page=10&amp;starts_with=де</p>
+
+<h1 id="vocabularies">Словари (vocabularies)</h1>
+
+<p>Для построения навигации можно использовать иерархические конструкции (vocabularies), которые запрашиваются у API. Таким образом приложение получает набор опций, которые можно использовать при запросах (через <code class="prettyprint">with</code>, <code class="prettyprint">with_any</code>), и управление навигацией перекладывается на API. Т.е. необязательно обновлять приложение при добавлении новой опции и т.п.</p>
+
+<p>Выводятся vocabularies в виде хэша.</p>
+
+<p>http://api.resto.ru/vocabularies.json</p>
+
+<h2 id="location">Локации (location)</h2>
+
+<p>Выборки по местоположению (aka геоособенность, т.е. особенность имеющая координату). Сейчас это только метро.</p>
+
+<p>http://api.resto.ru/vocabularies/locations.json</p>
+
+<p>Локации для региона:</p>
+
+<p>http://api.resto.ru/vocabularies/locations.json?region=spb</p>
+
+<h2 id="properties">Особенности (properties)</h2>
+
+<p>Набор всевозможных параметров заведений.</p>
+
+<p>http://api.resto.ru/vocabularies/properties.json</p>
+
+<h1 id="regions">Регионы (regions)</h1>
+
+<p>Список регионов:</p>
+
+<p>http://api.resto.ru/regions.json</p>
+
+<p>Регионы с русской локалью:</p>
+
+<p>http://api.resto.ru/regions.json?locale=ru</p>
+
+<p>Информация по указанному региону:</p>
+
+<p>http://api.resto.ru/regions.json?ids=msk</p>
+
+<p>http://api.resto.ru/places.json?region=spb&amp;page=2</p>
 
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="cURL">cURL</a>
-                <a href="#" data-language-name="ruby">ruby</a>
-                <a href="#" data-language-name="python">python</a>
           </div>
       </div>
     </div>
