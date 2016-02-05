@@ -88,7 +88,7 @@
   color: #90a959;
 }
     </style>
-      <script src="javascripts/all.js"></script>
+      <script src="javascripts/all_nosearch.js"></script>
   </head>
 
   <body class="index" data-languages="[]">
@@ -100,233 +100,416 @@
     </a>
     <div class="tocify-wrapper">
       <img src="images/logo.png" />
-      <div style="position: absolute; top: 13px; left: 70px; color: white; font: bold 30px/45px Helvetica, Arial, sans-serif;">Resto API</div>
+      <div style="position: absolute; top: 40px; left: 70px; color: white; font: bold 24px Helvetica, Arial, sans-serif;">Resto API</div>
         <div class="lang-selector">
         </div>
-        <div class="search">
-          <input type="text" class="search" id="input-search" placeholder="Search">
-        </div>
-        <ul class="search-results"></ul>
       <div id="toc">
       </div>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id="resto-zon-api">Resto/ZON API</h1>
+        <h1 id="Resto-API">Resto API</h1>
 
-<h2 id="api">Доступ к API</h2>
+<h2 id="Доступ-к-API">Доступ к API</h2>
 
-<p>Аутентификация делается через http-base-auth, запросы к Resto API - GET. Домен - api.resto.ru.</p>
+<p>Версия 1.0.</p>
 
-<h2 id="_">Выдача_</h2>
+<p>Аутентификация делается через http-base-auth. Запросы к Resto API выполняются http-методом GET в домене api.resto.ru.</p>
 
-<p>Формат - JSON.</p>
+<h2 id="Выдача">Выдача</h2>
 
-<h3 id="_">Ленивая выдача_</h3>
+<p>API возвращает данные в формате JSON.</p>
 
-<p>По умолчанию выдается только первая страница (даже если явно пейджинг не был явно запрошен) и из полей - только id&#39;ы, остальные поля и страницы нужно запрашивать явно. Для указания полей используется опция <code class="prettyprint">include</code></p>
+<h3 id="Выдача">&ldquo;Ленивая&rdquo; выдача</h3>
 
-<p>Пример:</p>
+<blockquote>
+<p>Пример запроса:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?ids<span class="o">=</span>7477,8&amp;include<span class="o">=</span>title,id,lat,lat
+</code></pre>
 
-<p>http://api.resto.ru/places.json?ids=7477,8&amp;include=title,id,lat,lat</p>
+<p>Данные выдаются только по явному запросу. Из полей - только id&#39;ы, остальные поля и страницы нужно запрашивать явно. По умолчанию выдается только первая страница (даже если явно пейджинация не была явно запрошена). Для указания полей используется опция <code class="prettyprint">include</code>.</p>
 
-<p>Если у заведения отсутствует какое-либо значение (например нет status&#39;а - заведение не относится к &ldquo;Временно закрытом&rdquo;, &ldquo;Новым&rdquo; и т.п.), то она просто не выводится.</p>
+<p>Если у заведения отсутствует какое-либо значение, то она просто не выводится. Например, если нет status&#39;а (т.е. заведение не относится к &ldquo;Закрытым&rdquo;, &ldquo;Новым&rdquo; и т.п.)</p>
 
-<h3 id="_">Пейджинация_</h3>
+<h3 id="Пейджинация">Пейджинация</h3>
+
+<blockquote>
+<p>Примеры пейджинации:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?per_page<span class="o">=</span>3
+http://api.resto.ru/places.json?region<span class="o">=</span>spb&amp;page<span class="o">=</span>2
+</code></pre>
 
 <p>По умолчанию выдается только первая страница (даже если явно пейджинг не был явно запрошен).</p>
 
 <p>Управлять пейджинацией можно через не обязательные параметры <code class="prettyprint">per_page</code> (количество объектов на &ldquo;странице&rdquo;, по умолчанию - 10) и <code class="prettyprint">page</code> - номер страницы (по умолчанию - 1).</p>
 
-<p>Пример:</p>
+<h1 id="Заведения">Заведения</h1>
 
-<p>http://api.resto.ru/places.json?per_page=3</p>
+<blockquote>
+<p>Выборка заведений по id&#39;ам:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?ids<span class="o">=</span>7477,4846
+http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
+</code></pre>
 
-<p>http://api.resto.ru/places.json?region=spb&amp;page=2</p>
+<blockquote>
+<p>С координатами:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?include<span class="o">=</span>title,id,lat,lat&amp;long<span class="o">=</span>37.5&amp;lat<span class="o">=</span>55.7&amp;page<span class="o">=</span>2
+</code></pre>
 
-<h1 id="places">Заведения (places)</h1>
+<blockquote>
+<p>В радиусе (указываются метры):</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?include<span class="o">=</span>title,id&amp;long<span class="o">=</span>37.5&amp;lat<span class="o">=</span>55.7&amp;radius<span class="o">=</span>300000
+</code></pre>
+
+<blockquote>
+<p>С адресом:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?include<span class="o">=</span>title,address&amp;long<span class="o">=</span>37.5&amp;lat<span class="o">=</span>55.7&amp;page<span class="o">=</span>2
+</code></pre>
+
+<blockquote>
+<p>С картинками:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?id<span class="o">=</span>55&amp;include<span class="o">=</span>title,photos,logo,panorama
+</code></pre>
+
+<blockquote>
+<p>С thumbnail&#39;ом smallbox:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?ids<span class="o">=</span>7477&amp;include<span class="o">=</span>title,smallbox
+</code></pre>
+
+<blockquote>
+<p>С указанной особенностью (станция метро в данном случае):</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?include<span class="o">=</span>title,price-range,long,lat&amp;with<span class="o">=</span>dinamo
+</code></pre>
+
+<blockquote>
+<p>С рейтингом ZON&#39;а:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?ids<span class="o">=</span>9786&amp;include<span class="o">=</span>title,zon_rating
+</code></pre>
+
+<blockquote>
+<p>Заведения, в которых можно забронировать столик через ZON:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?ids<span class="o">=</span>300392&amp;include<span class="o">=</span>title,zon_order_possible
+</code></pre>
+
+<blockquote>
+<p>Со статусом заведения:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?with<span class="o">=</span>new&amp;include<span class="o">=</span>title,status
+</code></pre>
+
+<blockquote>
+<p>Заведения указанного региона:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?region<span class="o">=</span>spb
+</code></pre>
+
+<blockquote>
+<p>С кольцом (Садовым, Бульварным и т.п.):</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?with<span class="o">=</span>out-of-town&amp;include<span class="o">=</span>title,ring
+</code></pre>
+
+<blockquote>
+<p>Заведения, измененные с указанной даты:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?include<span class="o">=</span>title,updated&amp;after<span class="o">=</span>2015-04-01T13:15:58+04:00
+</code></pre>
 
 <p>Все параметры возможные при запросе places:</p>
 
 <ul>
-<li>особенности:
+<li>особенности (т.е. опции, которые можно использовать для <code class="prettyprint">include</code>):
 
 <ul>
-<li>properties</li>
-<li>title</li>
-<li>address</li>
-<li>phone</li>
-<li>lat</li>
-<li>long</li>
+<li>properties (все особенности заведения)</li>
+<li>title (название)</li>
+<li>address (адрес)</li>
+<li>phone (телефоны)</li>
+<li>lat (широта геокоординаты)</li>
+<li>long (долгота геокоординаты)</li>
 <li>cuisine (кухни)</li>
-<li>price-range</li>
-<li>subway-station</li>
+<li>price-range (средний счет)</li>
+<li>subway-station (станции метро)</li>
 <li>type (тип заведения: ресторан, кафе и т.п.)</li>
 <li>zon_rating</li>
 <li>order_possible</li>
 <li>description</li>
-<li>ring</li>
-<li>status (&ldquo;Закрытое&rdquo;, &ldquo;Временно закрытое&rdquo;, &ldquo;Новое&rdquo; и т.п.)</li>
+<li>ring (кольца: Бульварное, Садовое и т.п.)</li>
+<li>status (особый статус: закрытое, новое и т.п.)</li>
 </ul></li>
 <li>картинки (выдают url или массив url&#39;ов):
 
 <ul>
 <li>has_photos</li>
-<li>photos</li>
+<li>photos (фотографии заведения)</li>
 <li>smallbox (64x64px, выдается одна картинка, логика ее выбора - на стороне API)</li>
 <li>middlebox (96x96px, выдается одна картинка, логика ее выбора - на стороне API)</li>
-<li>logo (в приложении не используется)</li>
-<li>panorama (в приложении не используется)</li>
+<li>logo (логотип)</li>
+<li>panorama (круговая панорама)</li>
 </ul></li>
 <li>фильтры:
 
 <ul>
-<li>with (получить список возможных значений для <code class="prettyprint">with</code> и <code class="prettyprint">with_any</code> можно через <a href="#vocabularies">словари</a>)</li>
-<li>with_any </li>
-<li>starts_with</li>
+<li>with (получить список возможных значений для <code class="prettyprint">with</code> и <code class="prettyprint">with_any</code> можно через <a href="#Словари">словари</a>)</li>
+<li>with_any</li>
+<li>starts_with (символы, с которых начинается название)</li>
 <li>ids</li>
-<li>region</li>
+<li>id</li>
+<li>region (фильтр по городам)</li>
 </ul></li>
 <li>геопозиция (действует как фильтр):
 
 <ul>
 <li>lat</li>
 <li>long</li>
-<li>radius</li>
+<li>radius (расстояние в метрах от указанной геокоординаты)</li>
 </ul></li>
 <li>пейджинация:
 
 <ul>
-<li>page</li>
-<li>per_page</li>
+<li>page (номер страницы)</li>
+<li>per_page (количество заведений на странице)</li>
 </ul></li>
 <li>сортировка:
 
 <ul>
-<li>sort_by</li>
+<li>sort_by (<a href="#Сортировка">подробно о сортировке</a>)</li>
 </ul></li>
 <li>поиск по title:
 
 <ul>
-<li>search</li>
+<li>search (<a href="#Поиск">подробно о поиске</a>)</li>
 </ul></li>
 </ul>
 
-<p>Выборка заведений по id&#39;ам:</p>
+<h2 id="Сортировка">Сортировка</h2>
 
-<p>http://api.resto.ru/places.json?ids=7477,4846</p>
+<blockquote>
+<p>Сортировка по геоособенности:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?include<span class="o">=</span>title&amp;with<span class="o">=</span>dinamo&amp;sort_by<span class="o">=</span>dinamo
+</code></pre>
 
-<p>http://api.resto.ru/places.json?id=7477,4846</p>
+<p>Если в запросе указана исходная точка, то сортировка делается по расстоянию от этой точки. Во всех прочих случаях сортировка делается по <code class="prettyprint">title</code>. Можно явно указать сортировку через параметр <code class="prettyprint">sort_by</code>.
+При сортировке по геоособенности (метро, точка и т.п.) выдается расстояние до этой точки (поле <code class="prettyprint">distance</code>).</p>
 
-<p>С координатами:</p>
+<h2 id="Поиск">Поиск</h2>
 
-<p>http://api.resto.ru/places.json?include=title,id,lat,lat&amp;long=37.5&amp;lat=55.7&amp;page=2</p>
+<blockquote>
+<p>Пример поиска:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?include<span class="o">=</span>title,id&amp;starts_with<span class="o">=</span>де
+</code></pre>
 
-<p>В радиусе (указываются метры):</p>
-
-<p>http://api.resto.ru/places.json?include=title,id&amp;long=37.5&amp;lat=55.7&amp;radius=300000</p>
-
-<p>С адресом:</p>
-
-<p>http://api.resto.ru/places.json?include=title,address&amp;long=37.5&amp;lat=55.7&amp;page=2</p>
-
-<p>С картинками:</p>
-
-<p>http://api.resto.ru/places.json?id=55&amp;include=title,photos,logo,panorama</p>
-
-<p>С thumbnail&#39;ом smallbox:</p>
-
-<p>http://api.resto.ru/places.json?ids=7477&amp;include=title,smallbox</p>
-
-<p>С указанной особенностью (станция метро в данном случае):</p>
-
-<p>http://api.resto.ru/places.json?include=title,price-range,long,lat&amp;with=dinamo</p>
-
-<p>С рейтингом ZON&#39;а:</p>
-
-<p>http://api.resto.ru/places.json?ids=9786&amp;include=title,zon_rating</p>
-
-<p>Заведения, в которых можно забронировать столик через ZON:</p>
-
-<p>http://api.resto.ru/places.json?ids=300392&amp;include=title,zon_order_possible</p>
-
-<p>Со статусом заведения:</p>
-
-<p>http://api.resto.ru/places.json?with=new&amp;include=title,status</p>
-
-<p>Заведения указанного региона:</p>
-
-<p>http://api.resto.ru/places.json?region=spb</p>
-
-<p>С кольцом (Садовым, Бульварным и т.п.):</p>
-
-<p>http://api.resto.ru/places.json?with=out-of-town&amp;include=title,ring</p>
-
-<p>Заведения измененные с указанной даты:</p>
-
-<p>http://api.resto.ru/places.json?include=title,updated&amp;after=2015-04-01T13:15:58+04:00</p>
-
-<h3 id="_">Сортировка_</h3>
-
-<p>Если в запросе указана исходная точка, то сортировка делается по удаленности от этой точки. Во всех прочих случаях сортировка делается по <code class="prettyprint">title</code>. Можно явно указать сортировку через параметр <code class="prettyprint">sort_by</code>.
-При сортировке по геоособенности (метро, точка и т.п.) выдается <code class="prettyprint">distance</code> - расстояние до этой точки.</p>
-
-<p>С сортировкой по геоособенности:</p>
-
-<p>http://api.resto.ru/places.json?include=title&amp;with=dinamo&amp;sort_by=dinamo</p>
-
-<h2 id="_">Поиск_</h2>
-
-<p>Для поиска по названию заведения можно использовать <code class="prettyprint">search</code> или <code class="prettyprint">starts_with</code></p>
-
-<p>Простой пример поиска:</p>
-
-<p>http://api.resto.ru/places.json?include=title,id&amp;starts_with=де</p>
-
+<blockquote>
 <p>Поиск с фильтрами:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?include<span class="o">=</span>title,id&amp;long<span class="o">=</span>37.84&amp;lat<span class="o">=</span>55.63&amp;radius<span class="o">=</span>300&amp;page<span class="o">=</span>2&amp;per_page<span class="o">=</span>10&amp;starts_with<span class="o">=</span>де
+</code></pre>
 
-<p>http://api.resto.ru/places.json?include=title,id&amp;long=37.84&amp;lat=55.63&amp;radius=300&amp;page=2&amp;per_page=10&amp;starts_with=де</p>
+<p>Для поиска по названию заведения можно использовать <code class="prettyprint">search</code> (поиск по подстроке) или <code class="prettyprint">starts_with</code> (поиск по первым буквам названия).</p>
 
-<h1 id="vocabularies">Словари (vocabularies)</h1>
+<h1 id="Словари">Словари</h1>
 
-<p>Для построения навигации можно использовать иерархические конструкции (vocabularies), которые запрашиваются у API. Таким образом приложение получает набор опций, которые можно использовать при запросах (через <code class="prettyprint">with</code>, <code class="prettyprint">with_any</code>), и управление навигацией перекладывается на API. Т.е. необязательно обновлять приложение при добавлении новой опции и т.п.</p>
+<blockquote>
+<p>Полный список словарей:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/vocabularies.json
+</code></pre>
 
-<p>Выводятся vocabularies в виде хэша.</p>
+<p>Для получения списка особенностей или построения иерархической навигации можно запросить у API т.н. словари (vocabularies), которые выводятся в виде хэша.</p>
 
-<p>http://api.resto.ru/vocabularies.json</p>
+<p>Полученные опции можно использовать для запросов (через <code class="prettyprint">with</code>, <code class="prettyprint">with_any</code>).</p>
 
-<h2 id="location">Локации (location)</h2>
+<h2 id="Локации">Локации</h2>
 
-<p>Выборки по местоположению (aka геоособенность, т.е. особенность имеющая координату). Сейчас это только метро.</p>
+<blockquote>
+<p>Локации для региона по умолчанию (Москва):</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/vocabularies/locations.json
+</code></pre>
 
-<p>http://api.resto.ru/vocabularies/locations.json</p>
+<blockquote>
+<p>Локации для указанного региона:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/vocabularies/locations.json?region<span class="o">=</span>spb
+</code></pre>
 
-<p>Локации для региона:</p>
+<p>Локация (aka геоособенность), это особенность, имеющая координату.</p>
 
-<p>http://api.resto.ru/vocabularies/locations.json?region=spb</p>
+<aside class="notice">Пока локации это только станции метро.</aside>
 
-<h2 id="properties">Особенности (properties)</h2>
+<h2 id="Особенности">Особенности</h2>
+
+<blockquote>
+<p>Запрос особенностей:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/vocabularies/properties.json
+</code></pre>
 
 <p>Набор всевозможных параметров заведений.</p>
 
-<p>http://api.resto.ru/vocabularies/properties.json</p>
+<h1 id="Регионы">Регионы</h1>
 
-<h1 id="regions">Регионы (regions)</h1>
-
+<blockquote>
 <p>Список регионов:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/regions.json
+</code></pre>
 
-<p>http://api.resto.ru/regions.json</p>
-
+<blockquote>
 <p>Регионы с русской локалью:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/regions.json?locale<span class="o">=</span>ru
+</code></pre>
 
-<p>http://api.resto.ru/regions.json?locale=ru</p>
-
+<blockquote>
 <p>Информация по указанному региону:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/regions.json?ids<span class="o">=</span>msk
+</code></pre>
 
-<p>http://api.resto.ru/regions.json?ids=msk</p>
+<blockquote>
+<p>Заведения указанного Санкт-Петербурга, вторая страница:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?region<span class="o">=</span>spb&amp;page<span class="o">=</span>2
+</code></pre>
 
-<p>http://api.resto.ru/places.json?region=spb&amp;page=2</p>
+<p>В выдаче можно запрашивать только заведения указанного города (региона). Список регионов и их идентификаторы (которые используются для фильтров) можно получить через список регионов.</p>
+
+<h1 id="ZON-API">ZON API</h1>
+
+<p>Версия 0.1.</p>
+
+<p>Аутентификация выполняется через идентификатор партнера (является частью URL) и ключ (атрибут key в POST-запросе).</p>
+
+<p>Запросы к API выполняются http-методом POST в домене z-o-n.ru.</p>
+
+<p>URL&#39;ы запросов имеют такой вид:</p>
+
+<p>/<em>api/action_XXX/partner</em>YYY</p>
+
+<p>где XXX - имя команды, YYY - id партнёра</p>
+
+<h2 id="order">order</h2>
+
+<blockquote>
+<p>Формат:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"placeid"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"order"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"minutes"</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"day"</span><span class="p">:</span><span class="w"> </span><span class="mi">19</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"month"</span><span class="p">:</span><span class="w"> </span><span class="mi">07</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"year"</span><span class="p">:</span><span class="w"> </span><span class="mi">2011</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some name"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+7 (112) 121-21-21"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email@mail.ru"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"persons"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"partner_comment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some comment"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"comment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some comment"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Order - заказ столика.</p>
+
+<aside class="notice">
+Чтобы сделать заказ столика нужно знать id заведения. По id заведения в базе Resto узнать id в базе ZON, можно через action_placeinforesto:<br/>
+<code>curl -sd 'key=***&restoid=1021' http://z-o-n.ru/_api/action_placeinforesto/partner_**</code>
+<br/>
+<br/>
+
+После чего:<br/>
+<code>curl -d "key=***&placeid=9066&order[persons]=1&order[year]=2012&order[month]=08&order[day]=04&order[hour]=17&order[minutes]=45&order[phone]=%2B7%20(916)%20878-38-77&order[email]=hmizgir%40gmail.com&order[comment]=test&order[name]=test" http://z-o-n.ru/_api/action_order/partner_**</code>
+<br/>
+<br/>
+
+Пример ответа:<br/>
+<code>{"codeanswer":"TR","data":"30"}</code>
+</aside>
+
+<p>Возвращает JSON следующего вида:</p>
+
+<p><code>{&quot;codeanswer&quot;:&quot;TR&quot;,&quot;data&quot;:&quot;30&quot;}</code></p>
+
+<p>Где <code class="prettyprint">codeanswer</code> - общий итог работы скрипта, <code class="prettyprint">data</code> - конкретизация итогов работы (зависит от codeanswer).</p>
+
+<ul>
+<li>codeanswer
+
+<ul>
+<li>OK - &ldquo;заказ успешно добавлен&rdquo;, возможные значения в <code class="prettyprint">data</code>:
+
+<ul>
+<li>10 - заказ успешно добавлен через zon</li>
+<li>20 - заказ успешно добавлен через call-центр</li>
+</ul></li>
+<li>TR - &ldquo;проблема с входными данными&rdquo;, возможные значения в <code class="prettyprint">data</code>:
+
+<ul>
+<li>10 - имя пользователя не прошло цензуру</li>
+<li>20 - указан некорректный телефон</li>
+<li>30 - ресторан неактивен</li>
+<li>40 - Заказ на слишком раннее время</li>
+<li>50 - На это время ресторан не принимает заказы, обратите внимание на часы работы или время приёма заказов</li>
+<li>60 - Все столики ресторана закрыты на спецобслуживание</li>
+<li>70 - Извините, клиент с этими данными заблокирован</li>
+<li>80 - Вы уже забронировали столик на эту дату. Если вы хотите забронировать столик в этом ресторане, сначала отмените предыдущий заказ</li>
+<li>90 - Вы уже забронировали столик в ресторане на эту дату. Чтобы забронировать столик, отмените предыдущую бронь</li>
+<li>100 - Заказчик НЕ может забронировать более 3 столиков в одном ресторане на одно и то же время</li>
+<li>110 - Может быть забронирован только столик с депозитом. Требуется согласие клиента на это, в случае согласия передать дополнительно POST[&lsquo;confirmdep&rsquo;]=1</li>
+</ul></li>
+<li>BUSY - &ldquo;столики заняты&rdquo;, возможные значения в <code class="prettyprint">data</code>:
+
+<ul>
+<li>10 - Есть столик в другом зале,</li>
+<li>20 - Есть менее вместительные столики. Попробуйте заказать несколько столиков,</li>
+<li>30 - Все маленькие столики заняты,</li>
+<li>40 - Зал закрыт от бронирования,</li>
+<li>50 - Нужный Вам столик есть на 30 минут позже,</li>
+<li>60 - Нужный Вам столик есть на 60 минут позже,</li>
+<li>70 - Нужный Вам столик есть на 90 минут позже,</li>
+<li>80 - Нужный Вам столик есть на 120 минут позже,</li>
+<li>10000 - Нет подходящих столиков с такими характеристиками</li>
+</ul></li>
+<li>ERR - &ldquo;ошибка во время выполнения&rdquo;</li>
+</ul></li>
+</ul>
+
+<h2 id="orderv">orderv</h2>
+
+<h2 id="changedorders">changedorders</h2>
+
+<h2 id="changedordersrestoall">changedordersrestoall</h2>
+
+<h2 id="search">search</h2>
+
+<h2 id="gettablelist">gettablelist</h2>
+
+<h2 id="placeinforesto">placeinforesto</h2>
+
+<h2 id="findemailbyphone">findemailbyphone</h2>
+
+<h2 id="worktime">worktime</h2>
+
+<h2 id="gettablecoord">gettablecoord</h2>
+
+<h2 id="snear">snear</h2>
 
       </div>
       <div class="dark-box">
