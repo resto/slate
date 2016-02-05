@@ -1,168 +1,201 @@
 ---
-title: API Reference
-
-language_tabs:
-  - shell
-  - ruby
-  - python
-
-toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
-
-includes:
-  - errors
+title: Resto API
 
 search: true
+
 ---
 
-# Introduction
+# Resto/ZON API
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+## Доступ к API
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+Аутентификация делается через http-base-auth, запросы к Resto API - GET. Домен - api.resto.ru.
 
-This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+## Выдача_
 
-# Authentication
+Формат - JSON.
 
-> To authorize, use this code:
+### Ленивая выдача_
 
-```ruby
-require 'kittn'
+По умолчанию выдается только первая страница (даже если явно пейджинг не был явно запрошен) и из полей - только id'ы, остальные поля и страницы нужно запрашивать явно. Для указания полей используется опция `include`
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
+Пример:
 
-```python
-import kittn
+http://api.resto.ru/places.json?ids=7477,8&include=title,id,lat,lat
 
-api = kittn.authorize('meowmeowmeow')
-```
+Если у заведения отсутствует какое-либо значение (например нет status'а - заведение не относится к "Временно закрытом", "Новым" и т.п.), то она просто не выводится.
 
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
+### Пейджинация_
 
-> Make sure to replace `meowmeowmeow` with your API key.
+По умолчанию выдается только первая страница (даже если явно пейджинг не был явно запрошен).
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+Управлять пейджинацией можно через не обязательные параметры `per_page` (количество объектов на "странице", по умолчанию - 10) и `page` - номер страницы (по умолчанию - 1).
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+Пример:
 
-`Authorization: meowmeowmeow`
+http://api.resto.ru/places.json?per_page=3
 
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
+http://api.resto.ru/places.json?region=spb&page=2
 
-# Kittens
+# Заведения (places)
 
-## Get All Kittens
+Все параметры возможные при запросе places:
 
-```ruby
-require 'kittn'
+* особенности:
+  * properties
+  * title
+  * address
+  * phone
+  * lat
+  * long
+  * cuisine (кухни)
+  * price-range
+  * subway-station
+  * type (тип заведения: ресторан, кафе и т.п.)
+  * zon_rating
+  * order_possible
+  * description
+  * ring
+  * status ("Закрытое", "Временно закрытое", "Новое" и т.п.)
+* картинки (выдают url или массив url'ов):
+  * has_photos
+  * photos
+  * smallbox (64x64px, выдается одна картинка, логика ее выбора - на стороне API)
+  * middlebox (96x96px, выдается одна картинка, логика ее выбора - на стороне API)
+  * logo (в приложении не используется)
+  * panorama (в приложении не используется)
+* фильтры:
+  * with (получить список возможных значений для `with` и `with_any` можно через [словари](#vocabularies))
+  * with_any 
+  * starts_with
+  * ids
+  * region
+* геопозиция (действует как фильтр):
+  * lat
+  * long
+  * radius
+* пейджинация:
+  * page
+  * per_page
+* сортировка:
+  * sort_by
+* поиск по title:
+  * search
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
+Выборка заведений по id'ам:
 
-```python
-import kittn
+http://api.resto.ru/places.json?ids=7477,4846
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
+http://api.resto.ru/places.json?id=7477,4846
 
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
+С координатами:
 
-> The above command returns JSON structured like this:
+http://api.resto.ru/places.json?include=title,id,lat,lat&long=37.5&lat=55.7&page=2
 
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
+В радиусе (указываются метры):
 
-This endpoint retrieves all kittens.
+http://api.resto.ru/places.json?include=title,id&long=37.5&lat=55.7&radius=300000
 
-### HTTP Request
+С адресом:
 
-`GET http://example.com/api/kittens`
+http://api.resto.ru/places.json?include=title,address&long=37.5&lat=55.7&page=2
 
-### Query Parameters
+С картинками:
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+http://api.resto.ru/places.json?id=55&include=title,photos,logo,panorama
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+С thumbnail'ом smallbox:
 
-## Get a Specific Kitten
+http://api.resto.ru/places.json?ids=7477&include=title,smallbox
 
-```ruby
-require 'kittn'
+С указанной особенностью (станция метро в данном случае):
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
+http://api.resto.ru/places.json?include=title,price-range,long,lat&with=dinamo
 
-```python
-import kittn
+С рейтингом ZON'а:
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
+http://api.resto.ru/places.json?ids=9786&include=title,zon_rating
 
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
+Заведения, в которых можно забронировать столик через ZON:
 
-> The above command returns JSON structured like this:
+http://api.resto.ru/places.json?ids=300392&include=title,zon_order_possible
 
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
 
-This endpoint retrieves a specific kitten.
+Со статусом заведения:
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+http://api.resto.ru/places.json?with=new&include=title,status
 
-### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+Заведения указанного региона:
 
-### URL Parameters
+http://api.resto.ru/places.json?region=spb
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+С кольцом (Садовым, Бульварным и т.п.):
 
+http://api.resto.ru/places.json?with=out-of-town&include=title,ring
+
+Заведения измененные с указанной даты:
+
+http://api.resto.ru/places.json?include=title,updated&after=2015-04-01T13:15:58+04:00
+
+
+### Сортировка_
+
+Если в запросе указана исходная точка, то сортировка делается по удаленности от этой точки. Во всех прочих случаях сортировка делается по `title`. Можно явно указать сортировку через параметр `sort_by`.
+При сортировке по геоособенности (метро, точка и т.п.) выдается `distance` - расстояние до этой точки.
+
+С сортировкой по геоособенности:
+
+http://api.resto.ru/places.json?include=title&with=dinamo&sort_by=dinamo
+
+## Поиск_
+
+Для поиска по названию заведения можно использовать `search` или `starts_with`
+
+Простой пример поиска:
+
+http://api.resto.ru/places.json?include=title,id&starts_with=де
+
+Поиск с фильтрами:
+
+http://api.resto.ru/places.json?include=title,id&long=37.84&lat=55.63&radius=300&page=2&per_page=10&starts_with=де
+
+# Словари (vocabularies)
+
+Для построения навигации можно использовать иерархические конструкции (vocabularies), которые запрашиваются у API. Таким образом приложение получает набор опций, которые можно использовать при запросах (через `with`, `with_any`), и управление навигацией перекладывается на API. Т.е. необязательно обновлять приложение при добавлении новой опции и т.п.
+
+Выводятся vocabularies в виде хэша.
+
+http://api.resto.ru/vocabularies.json
+
+## Локации (location)
+
+Выборки по местоположению (aka геоособенность, т.е. особенность имеющая координату). Сейчас это только метро.
+
+http://api.resto.ru/vocabularies/locations.json
+
+Локации для региона:
+
+http://api.resto.ru/vocabularies/locations.json?region=spb
+
+## Особенности (properties)
+
+Набор всевозможных параметров заведений.
+
+http://api.resto.ru/vocabularies/properties.json
+
+# Регионы (regions)
+
+Список регионов:
+
+http://api.resto.ru/regions.json
+
+Регионы с русской локалью:
+
+http://api.resto.ru/regions.json?locale=ru
+
+Информация по указанному региону:
+
+http://api.resto.ru/regions.json?ids=msk
+
+http://api.resto.ru/places.json?region=spb&page=2
