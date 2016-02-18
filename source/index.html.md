@@ -566,12 +566,30 @@ curl -d 'key=***&latitude=55.45&longitude=37.36' http://z-o-n.ru/_api/action_sne
     "email": "email@mail.ru",
     "persons": 1,
     "partner_comment": "some comment",
-    "comment": "some comment"
+    "comment": "some comment",
+    "userpartnerid": 111
   }
 }
 ```
 
-Заказ любого столика в ресторане.
+Заказ любого свободного столика в ресторане.
+
+Параметры запроса:
+
+* placeid - ID ресторана
+* order:
+  * persons - количество персон
+  * name - имя гостя
+  * phone - телефон гостя
+  * email - email гостя
+  * comment - комментарий гостя
+  * hour - часы из времени заказа
+  * minutes - минуты из времени заказа
+  * day - день из времени заказа
+  * month - месяц из времени заказа
+  * year - год из времени заказа
+  * partner_comment - комментарий пользователя API
+  * userpartnerid - ID гостя в базе пользователя API (**NB!** обязательный параметр, заказы без userpartnerid не попадают в вывод методов изменений состояния заказа - changedorders и changedordersrestoall)
 
 <aside class="notice">
 Чтобы сделать заказ столика нужно знать ID заведения. По ID заведения в базе Resto узнать ID в базе ZON, можно через запрос `placeinforesto`:<br/>
@@ -724,14 +742,23 @@ table_id = tables_info['tables'].last['table_id']
 
 **Возвращаемые значения:**
 
-* name - имя, указанное в заказе
+* name - имя гостя
 * orderdatetime - время брони
-* userpartnerid - ID заказчика у партнера
+* userpartnerid - ID гостя в базе пользователя API
 * place - заведение, куда сделан заказ
-* email - почта, указанная в заказе
-* datetime - время изменения статуса
-* status - установленный статус
-
+* email - email гостя
+* statuses - массив изменений статусов заказа (status - новое состояние,  datetime - время-дата установки статуса), коды статусов:
+    * 0 - -
+    * 5 - гость отправлен в колл-центр
+    * 10 - новый заказ
+    * 20 - гость пришел
+    * 30 - гость отменил заказ
+    * 40 - гость не пришел
+    * 100 - заказ принят
+    * 101 - столик забронирован
+    * 300 - направлен в ресторан
+    * 402 - нет мест
+    * 500 - ошибочный заказ
 
 <h2 id="changedordersrestoall">changedordersrestoall</h2>
 
