@@ -705,12 +705,35 @@ URL'ы фотографий (url, 140x102url, 229x238url) выдаются то�
     </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email@mail.ru"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"persons"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="nt">"partner_comment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some comment"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"comment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some comment"</span><span class="w">
+    </span><span class="nt">"comment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some comment"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"userpartnerid"</span><span class="p">:</span><span class="w"> </span><span class="mi">111</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>Заказ любого столика в ресторане.</p>
+<p>Заказ любого свободного столика в ресторане.</p>
+
+<p>Параметры запроса:</p>
+
+<ul>
+<li>placeid - ID ресторана</li>
+<li>order:
+
+<ul>
+<li>persons - количество персон</li>
+<li>name - имя гостя</li>
+<li>phone - телефон гостя</li>
+<li>email - email гостя</li>
+<li>comment - комментарий гостя</li>
+<li>hour - часы из времени заказа</li>
+<li>minutes - минуты из времени заказа</li>
+<li>day - день из времени заказа</li>
+<li>month - месяц из времени заказа</li>
+<li>year - год из времени заказа</li>
+<li>partner_comment - комментарий пользователя API</li>
+<li>userpartnerid - ID гостя в базе пользователя API (<strong>NB!</strong> обязательный параметр, заказы без userpartnerid не попадают в вывод методов изменений состояния заказа - changedorders и changedordersrestoall)</li>
+</ul></li>
+</ul>
 
 <aside class="notice">
 Чтобы сделать заказ столика нужно знать ID заведения. По ID заведения в базе Resto узнать ID в базе ZON, можно через запрос `placeinforesto`:<br/>
@@ -875,13 +898,26 @@ table_id = tables_info['tables'].last['table_id']
 <p><strong>Возвращаемые значения:</strong></p>
 
 <ul>
-<li>name - имя, указанное в заказе</li>
+<li>name - имя гостя</li>
 <li>orderdatetime - время брони</li>
-<li>userpartnerid - ID заказчика у партнера</li>
+<li>userpartnerid - ID гостя в базе пользователя API</li>
 <li>place - заведение, куда сделан заказ</li>
-<li>email - почта, указанная в заказе</li>
-<li>datetime - время изменения статуса</li>
-<li>status - установленный статус</li>
+<li>email - email гостя</li>
+<li>statuses - массив изменений статусов заказа (status - новое состояние,  datetime - время-дата установки статуса), коды статусов:
+
+<ul>
+<li>0 - -</li>
+<li>5 - гость отправлен в колл-центр</li>
+<li>10 - новый заказ</li>
+<li>20 - гость пришел</li>
+<li>30 - гость отменил заказ</li>
+<li>40 - гость не пришел</li>
+<li>100 - заказ принят</li>
+<li>101 - столик забронирован</li>
+<li>300 - направлен в ресторан</li>
+<li>402 - нет мест</li>
+<li>500 - ошибочный заказ</li>
+</ul></li>
 </ul>
 
 <h2 id="changedordersrestoall">changedordersrestoall</h2>
