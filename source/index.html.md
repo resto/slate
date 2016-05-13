@@ -93,10 +93,10 @@ http://api.resto.ru/places.json?include=title,price-range,long,lat&with=dinamo
 http://api.resto.ru/places.json?ids=9786&include=title,zon_rating
 ```
 
-> Заведения, в которых можно забронировать столик через ZON:
+> Заведения, в которых можно забронировать столик через ZON (возвращается zon_id):
 
 ```shell
-http://api.resto.ru/places.json?ids=300392&include=title,zon_order_possible
+http://api.resto.ru/places.json?ids=300392&include=title,zon_id
 ```
 
 > Со статусом заведения:
@@ -137,6 +137,7 @@ http://api.resto.ru/places.json?include=title,updated&after=2015-04-01T13:15:58+
   * subway-station (станции метро)
   * type (тип заведения: ресторан, кафе и т.п.)
   * zon_rating
+  * zon_id
   * order_possible
   * description
   * ring (кольца: Бульварное, Садовое и т.п.)
