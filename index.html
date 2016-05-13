@@ -198,9 +198,9 @@ http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
 </code></pre>
 
 <blockquote>
-<p>Заведения, в которых можно забронировать столик через ZON:</p>
+<p>Заведения, в которых можно забронировать столик через ZON (возвращается zon_id):</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?ids<span class="o">=</span>300392&amp;include<span class="o">=</span>title,zon_order_possible
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?ids<span class="o">=</span>300392&amp;include<span class="o">=</span>title,zon_id
 </code></pre>
 
 <blockquote>
@@ -244,6 +244,7 @@ http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
 <li>subway-station (станции метро)</li>
 <li>type (тип заведения: ресторан, кафе и т.п.)</li>
 <li>zon_rating</li>
+<li>zon_id</li>
 <li>order_possible</li>
 <li>description</li>
 <li>ring (кольца: Бульварное, Садовое и т.п.)</li>
