@@ -87,6 +87,12 @@ http://api.resto.ru/places.json?ids=7477&include=title,smallbox
 http://api.resto.ru/places.json?include=title,price-range,long,lat&with=dinamo
 ```
 
+> Рестораны в которых можно сделать заказ столика:
+
+```shell
+http://api.resto.ru/places.json?include=title,order_partner&with=order_partner
+```
+
 > С рейтингом ZON'а:
 
 ```shell
@@ -138,7 +144,7 @@ http://api.resto.ru/places.json?include=title,updated&after=2015-04-01T13:15:58+
   * type (тип заведения: ресторан, кафе и т.п.)
   * zon_rating
   * zon_id
-  * order_possible
+  * order_partner (в этом ресторане можно забронировать столик)
   * description
   * ring (кольца: Бульварное, Садовое и т.п.)
   * status (особый статус: закрытое, новое и т.п.)
