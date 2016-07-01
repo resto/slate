@@ -192,6 +192,12 @@ http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
 </code></pre>
 
 <blockquote>
+<p>Рестораны в которых можно сделать заказ столика:</p>
+</blockquote>
+<pre class="highlight shell"><code>http://api.resto.ru/places.json?include<span class="o">=</span>title,order_partner&amp;with<span class="o">=</span>order_partner
+</code></pre>
+
+<blockquote>
 <p>С рейтингом ZON&#39;а:</p>
 </blockquote>
 <pre class="highlight shell"><code>http://api.resto.ru/places.json?ids<span class="o">=</span>9786&amp;include<span class="o">=</span>title,zon_rating
@@ -245,7 +251,7 @@ http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
 <li>type (тип заведения: ресторан, кафе и т.п.)</li>
 <li>zon_rating</li>
 <li>zon_id</li>
-<li>order_possible</li>
+<li>order_partner (в этом ресторане можно забронировать столик)</li>
 <li>description</li>
 <li>ring (кольца: Бульварное, Садовое и т.п.)</li>
 <li>status (особый статус: закрытое, новое и т.п.)</li>
