@@ -22,7 +22,7 @@ API возвращает данные в формате JSON.
 > Пример запроса:
 
 ```shell
-http://api.resto.ru/places.json?ids=7477,8&include=title,id,lat,lat
+https://api.resto.ru/places.json?ids=7477,8&include=title,id,lat,lat
 ```
 
 Данные выдаются только по явному запросу. Из полей - только ID'ы, остальные поля и страницы нужно запрашивать явно. По умолчанию выдается только первая страница (даже если явно пейджинация не была явно запрошена). Для указания полей используется опция `include`.
@@ -34,8 +34,8 @@ http://api.resto.ru/places.json?ids=7477,8&include=title,id,lat,lat
 > Примеры пейджинации:
 
 ```shell
-http://api.resto.ru/places.json?per_page=3
-http://api.resto.ru/places.json?region=spb&page=2
+https://api.resto.ru/places.json?per_page=3
+https://api.resto.ru/places.json?region=spb&page=2
 ```
 
 По умолчанию выдается только первая страница (даже если явно пейджинг не был явно запрошен).
@@ -47,86 +47,86 @@ http://api.resto.ru/places.json?region=spb&page=2
 > Выборка заведений по id'ам:
 
 ```shell
-http://api.resto.ru/places.json?ids=7477,4846
-http://api.resto.ru/places.json?id=7477,4846
+https://api.resto.ru/places.json?ids=7477,4846
+https://api.resto.ru/places.json?id=7477,4846
 ```
 
 > С координатами:
 
 ```shell
-http://api.resto.ru/places.json?include=title,id,lat,lat&long=37.5&lat=55.7&page=2
+https://api.resto.ru/places.json?include=title,id,lat,lat&long=37.5&lat=55.7&page=2
 ```
 
 > В радиусе (указываются метры):
 
 ```shell
-http://api.resto.ru/places.json?include=title,id&long=37.5&lat=55.7&radius=300000
+https://api.resto.ru/places.json?include=title,id&long=37.5&lat=55.7&radius=300000
 ```
 
 > С адресом:
 
 ```shell
-http://api.resto.ru/places.json?include=title,address&long=37.5&lat=55.7&page=2
+https://api.resto.ru/places.json?include=title,address&long=37.5&lat=55.7&page=2
 ```
 
 > С картинками:
 
 ```shell
-http://api.resto.ru/places.json?id=55&include=title,photos,logo,panorama
+https://api.resto.ru/places.json?id=55&include=title,photos,logo,panorama
 ```
 
 > С thumbnail'ом smallbox:
 
 ```shell
-http://api.resto.ru/places.json?ids=7477&include=title,smallbox
+https://api.resto.ru/places.json?ids=7477&include=title,smallbox
 ```
 
 > С указанной особенностью (станция метро в данном случае):
 
 ```shell
-http://api.resto.ru/places.json?include=title,price-range,long,lat&with=dinamo
+https://api.resto.ru/places.json?include=title,price-range,long,lat&with=dinamo
 ```
 
 > Рестораны в которых можно сделать заказ столика:
 
 ```shell
-http://api.resto.ru/places.json?include=title,order_partner&with=order_partner
+https://api.resto.ru/places.json?include=title,order_partner&with=order_partner
 ```
 
 > С рейтингом ZON'а:
 
 ```shell
-http://api.resto.ru/places.json?ids=9786&include=title,zon_rating
+https://api.resto.ru/places.json?ids=9786&include=title,zon_rating
 ```
 
 > Заведения, в которых можно забронировать столик через ZON (возвращается zon_id):
 
 ```shell
-http://api.resto.ru/places.json?ids=300392&include=title,zon_id
+https://api.resto.ru/places.json?ids=300392&include=title,zon_id
 ```
 
 > Со статусом заведения:
 
 ```shell
-http://api.resto.ru/places.json?with=new&include=title,status
+https://api.resto.ru/places.json?with=new&include=title,status
 ```
 
 > Заведения указанного региона:
 
 ```shell
-http://api.resto.ru/places.json?region=spb
+https://api.resto.ru/places.json?region=spb
 ```
 
 > С кольцом (Садовым, Бульварным и т.п.):
 
 ```shell
-http://api.resto.ru/places.json?with=out-of-town&include=title,ring
+https://api.resto.ru/places.json?with=out-of-town&include=title,ring
 ```
 
 > Заведения, измененные с указанной даты:
 
 ```shell
-http://api.resto.ru/places.json?include=title,updated&after=2015-04-01T13:15:58+04:00
+https://api.resto.ru/places.json?include=title,updated&after=2015-04-01T13:15:58+04:00
 ```
 
 Все параметры возможные при запросе places:
@@ -180,7 +180,7 @@ http://api.resto.ru/places.json?include=title,updated&after=2015-04-01T13:15:58+
 >Сортировка по геоособенности:
 
 ```shell
-http://api.resto.ru/places.json?include=title&with=dinamo&sort_by=dinamo
+https://api.resto.ru/places.json?include=title&with=dinamo&sort_by=dinamo
 ```
 
 Если в запросе указана исходная точка, то сортировка делается по расстоянию от этой точки. Во всех прочих случаях сортировка делается по `title`. Можно явно указать сортировку через параметр `sort_by`.
@@ -191,13 +191,13 @@ http://api.resto.ru/places.json?include=title&with=dinamo&sort_by=dinamo
 > Пример поиска:
 
 ```shell
-http://api.resto.ru/places.json?include=title,id&starts_with=де
+https://api.resto.ru/places.json?include=title,id&starts_with=де
 ```
 
 > Поиск с фильтрами:
 
 ```shell
-http://api.resto.ru/places.json?include=title,id&long=37.84&lat=55.63&radius=300&page=2&per_page=10&starts_with=де
+https://api.resto.ru/places.json?include=title,id&long=37.84&lat=55.63&radius=300&page=2&per_page=10&starts_with=де
 ```
 
 Для поиска по названию заведения можно использовать `search` (поиск по подстроке) или `starts_with` (поиск по первым буквам названия).
@@ -207,7 +207,7 @@ http://api.resto.ru/places.json?include=title,id&long=37.84&lat=55.63&radius=300
 > Полный список словарей:
 
 ```shell
-http://api.resto.ru/vocabularies.json
+https://api.resto.ru/vocabularies.json
 ```
 
 Для получения списка особенностей или построения иерархической навигации можно запросить у API т.н. словари (vocabularies), которые выводятся в виде хэша.
@@ -219,13 +219,13 @@ http://api.resto.ru/vocabularies.json
 > Локации для региона по умолчанию (Москва):
 
 ```shell
-http://api.resto.ru/vocabularies/locations.json
+https://api.resto.ru/vocabularies/locations.json
 ```
 
 > Локации для указанного региона:
 
 ```shell
-http://api.resto.ru/vocabularies/locations.json?region=spb
+https://api.resto.ru/vocabularies/locations.json?region=spb
 ```
 
 Локация (aka геоособенность), это особенность, имеющая координату.
@@ -238,7 +238,7 @@ http://api.resto.ru/vocabularies/locations.json?region=spb
 > Запрос особенностей:
 
 ```shell
-http://api.resto.ru/vocabularies/properties.json
+https://api.resto.ru/vocabularies/properties.json
 ```
 
 Набор всевозможных параметров заведений.
@@ -248,25 +248,25 @@ http://api.resto.ru/vocabularies/properties.json
 > Список регионов:
 
 ```shell
-http://api.resto.ru/regions.json
+https://api.resto.ru/regions.json
 ```
 
 > Регионы с русской локалью:
 
 ```shell
-http://api.resto.ru/regions.json?locale=ru
+https://api.resto.ru/regions.json?locale=ru
 ```
 
 > Информация по указанному региону:
 
 ```shell
-http://api.resto.ru/regions.json?ids=msk
+https://api.resto.ru/regions.json?ids=msk
 ```
 
 > Заведения указанного Санкт-Петербурга, вторая страница:
 
 ```shell
-http://api.resto.ru/places.json?region=spb&page=2
+https://api.resto.ru/places.json?region=spb&page=2
 ```
 
 В выдаче можно запрашивать только заведения указанного города (региона). Список регионов и их идентификаторы (которые используются для фильтров) можно получить через список регионов.
@@ -290,7 +290,7 @@ URL'ы запросов имеют такой вид:
 > Пример curl-вызова:
 
 ```shell
-curl -d 'key=***&restoid=6901' http://z-o-n.ru/_api/action_placeinforesto/partner_**
+curl -d 'key=***&restoid=6901' https://z-o-n.ru/_api/action_placeinforesto/partner_**
 ```
 
 > Пример ответа:
@@ -304,7 +304,7 @@ curl -d 'key=***&restoid=6901' http://z-o-n.ru/_api/action_placeinforesto/partne
       {
          "zal_name" : "Vinoroom",
          "zal_kol_seat" : 11,
-         "zal_pict" : "http://z-o-n.ru/i/zals/zal389.png",
+         "zal_pict" : "https://z-o-n.ru/i/zals/zal389.png",
          "zal_smoke" : "0",
          "zal_id" : "389"
       },
@@ -312,7 +312,7 @@ curl -d 'key=***&restoid=6901' http://z-o-n.ru/_api/action_placeinforesto/partne
          "zal_smoke" : "0",
          "zal_id" : "390",
          "zal_kol_seat" : 67,
-         "zal_pict" : "http://z-o-n.ru/i/zals/zal390.png",
+         "zal_pict" : "https://z-o-n.ru/i/zals/zal390.png",
          "zal_name" : "Terrassa"
       }
    ]
@@ -339,7 +339,7 @@ curl -d 'key=***&restoid=6901' http://z-o-n.ru/_api/action_placeinforesto/partne
 > Пример curl-вызова:
 
 ```shell
-curl -d 'key=***&restoid=7477' http://z-o-n.ru/_api/action_worktime/partner_**
+curl -d 'key=***&restoid=7477' https://z-o-n.ru/_api/action_worktime/partner_**
 ```
 
 > Пример ответа:
@@ -364,7 +364,7 @@ curl -d 'key=***&restoid=7477' http://z-o-n.ru/_api/action_worktime/partner_**
 > Пример curl-вызова:
 
 ```shell
-curl -d 'key=***&id=12081&&year=2016&month=02&day=07&hour=15&minutes=55&persons=1' http://z-o-n.ru/_api/action_gettablelist/partner_**
+curl -d 'key=***&id=12081&&year=2016&month=02&day=07&hour=15&minutes=55&persons=1' https://z-o-n.ru/_api/action_gettablelist/partner_**
 ```
 
 > Пример ответа:
@@ -426,7 +426,7 @@ URL'ы фотографий (url, 140x102url, 229x238url) выдаются то�
 > Пример curl-вызова:
 
 ```shell
-curl -d 'key=***&table_id=86' http://z-o-n.ru/_api/action_gettablecoord/partner_**
+curl -d 'key=***&table_id=86' https://z-o-n.ru/_api/action_gettablecoord/partner_**
 ```
 
 > Пример ответа:
@@ -453,7 +453,7 @@ curl -d 'key=***&table_id=86' http://z-o-n.ru/_api/action_gettablecoord/partner_
 > Пример curl-вызова:
 
 ```shell
-curl -d 'key=***&name=рно' http://z-o-n.ru/_api/action_search/partner_**
+curl -d 'key=***&name=рно' https://z-o-n.ru/_api/action_search/partner_**
 ```
 
 > Пример ответа:
@@ -498,7 +498,7 @@ curl -d 'key=***&name=рно' http://z-o-n.ru/_api/action_search/partner_**
 > Пример curl-вызова:
 
 ```shell
-curl -d 'key=***&latitude=55.45&longitude=37.36' http://z-o-n.ru/_api/action_snear/partner_**
+curl -d 'key=***&latitude=55.45&longitude=37.36' https://z-o-n.ru/_api/action_snear/partner_**
 ```
 
 > Пример ответа:
@@ -600,12 +600,12 @@ curl -d 'key=***&latitude=55.45&longitude=37.36' http://z-o-n.ru/_api/action_sne
 
 <aside class="notice">
 Чтобы сделать заказ столика нужно знать ID заведения. По ID заведения в базе Resto узнать ID в базе ZON, можно через запрос `placeinforesto`:<br/>
-<code>curl -d 'key=***&restoid=1021' http://z-o-n.ru/_api/action_placeinforesto/partner_**</code>
+<code>curl -d 'key=***&restoid=1021' https://z-o-n.ru/_api/action_placeinforesto/partner_**</code>
 <br/>
 <br/>
 
 После чего:<br/>
-<code>curl -d "key=***&placeid=9066&order[persons]=1&order[year]=2015&order[month]=08&order[day]=04&order[hour]=17&order[minutes]=45&order[phone]=%2B7%20(916)%20878-38-77&order[email]=hmizgir%40gmail.com&order[comment]=test&order[name]=test" http://z-o-n.ru/_api/action_order/partner_**</code>
+<code>curl -d "key=***&placeid=9066&order[persons]=1&order[year]=2015&order[month]=08&order[day]=04&order[hour]=17&order[minutes]=45&order[phone]=%2B7%20(916)%20878-38-77&order[email]=hmizgir%40gmail.com&order[comment]=test&order[name]=test" https://z-o-n.ru/_api/action_order/partner_**</code>
 <br/>
 <br/>
 
@@ -684,7 +684,7 @@ Orderv аналогичен order, но в параметрах заказа п�
 Пример gettablelist-запроса в ruby:<br/>
 <code>
 params = {'id' => 2, 'persons' => 2, 'smoke' => 1, 'key' => '***'}<br/>
-url = 'http://z-o-n.ru/_api/action_gettablelist/partner_**'<br/>
+url = 'https://z-o-n.ru/_api/action_gettablelist/partner_**'<br/>
 tables_info = JSON.parse RestClient.post(url, params, :content_type => :json, :accept => :json).body<br/>
 table_id = tables_info['tables'].last['table_id']
 </code>
