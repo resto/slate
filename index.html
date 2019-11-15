@@ -126,7 +126,7 @@
 <blockquote>
 <p>Пример запроса:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?ids<span class="o">=</span>7477,8&amp;include<span class="o">=</span>title,id,lat,lat
+<pre class="highlight shell"><code>https://api.resto.ru/places.json?ids<span class="o">=</span>7477,8&amp;include<span class="o">=</span>title,id,lat,lat
 </code></pre>
 
 <p>Данные выдаются только по явному запросу. Из полей - только ID&#39;ы, остальные поля и страницы нужно запрашивать явно. По умолчанию выдается только первая страница (даже если явно пейджинация не была явно запрошена). Для указания полей используется опция <code class="prettyprint">include</code>.</p>
@@ -138,8 +138,8 @@
 <blockquote>
 <p>Примеры пейджинации:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?per_page<span class="o">=</span>3
-http://api.resto.ru/places.json?region<span class="o">=</span>spb&amp;page<span class="o">=</span>2
+<pre class="highlight shell"><code>https://api.resto.ru/places.json?per_page<span class="o">=</span>3
+https://api.resto.ru/places.json?region<span class="o">=</span>spb&amp;page<span class="o">=</span>2
 </code></pre>
 
 <p>По умолчанию выдается только первая страница (даже если явно пейджинг не был явно запрошен).</p>
@@ -151,86 +151,86 @@ http://api.resto.ru/places.json?region<span class="o">=</span>spb&amp;page<span 
 <blockquote>
 <p>Выборка заведений по id&#39;ам:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?ids<span class="o">=</span>7477,4846
-http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
+<pre class="highlight shell"><code>https://api.resto.ru/places.json?ids<span class="o">=</span>7477,4846
+https://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
 </code></pre>
 
 <blockquote>
 <p>С координатами:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?include<span class="o">=</span>title,id,lat,lat&amp;long<span class="o">=</span>37.5&amp;lat<span class="o">=</span>55.7&amp;page<span class="o">=</span>2
+<pre class="highlight shell"><code>https://api.resto.ru/places.json?include<span class="o">=</span>title,id,lat,lat&amp;long<span class="o">=</span>37.5&amp;lat<span class="o">=</span>55.7&amp;page<span class="o">=</span>2
 </code></pre>
 
 <blockquote>
 <p>В радиусе (указываются метры):</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?include<span class="o">=</span>title,id&amp;long<span class="o">=</span>37.5&amp;lat<span class="o">=</span>55.7&amp;radius<span class="o">=</span>300000
+<pre class="highlight shell"><code>https://api.resto.ru/places.json?include<span class="o">=</span>title,id&amp;long<span class="o">=</span>37.5&amp;lat<span class="o">=</span>55.7&amp;radius<span class="o">=</span>300000
 </code></pre>
 
 <blockquote>
 <p>С адресом:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?include<span class="o">=</span>title,address&amp;long<span class="o">=</span>37.5&amp;lat<span class="o">=</span>55.7&amp;page<span class="o">=</span>2
+<pre class="highlight shell"><code>https://api.resto.ru/places.json?include<span class="o">=</span>title,address&amp;long<span class="o">=</span>37.5&amp;lat<span class="o">=</span>55.7&amp;page<span class="o">=</span>2
 </code></pre>
 
 <blockquote>
 <p>С картинками:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?id<span class="o">=</span>55&amp;include<span class="o">=</span>title,photos,logo,panorama
+<pre class="highlight shell"><code>https://api.resto.ru/places.json?id<span class="o">=</span>55&amp;include<span class="o">=</span>title,photos,logo,panorama
 </code></pre>
 
 <blockquote>
 <p>С thumbnail&#39;ом smallbox:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?ids<span class="o">=</span>7477&amp;include<span class="o">=</span>title,smallbox
+<pre class="highlight shell"><code>https://api.resto.ru/places.json?ids<span class="o">=</span>7477&amp;include<span class="o">=</span>title,smallbox
 </code></pre>
 
 <blockquote>
 <p>С указанной особенностью (станция метро в данном случае):</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?include<span class="o">=</span>title,price-range,long,lat&amp;with<span class="o">=</span>dinamo
+<pre class="highlight shell"><code>https://api.resto.ru/places.json?include<span class="o">=</span>title,price-range,long,lat&amp;with<span class="o">=</span>dinamo
 </code></pre>
 
 <blockquote>
 <p>Рестораны в которых можно сделать заказ столика:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?include<span class="o">=</span>title,order_partner&amp;with<span class="o">=</span>order_partner
+<pre class="highlight shell"><code>https://api.resto.ru/places.json?include<span class="o">=</span>title,order_partner&amp;with<span class="o">=</span>order_partner
 </code></pre>
 
 <blockquote>
 <p>С рейтингом ZON&#39;а:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?ids<span class="o">=</span>9786&amp;include<span class="o">=</span>title,zon_rating
+<pre class="highlight shell"><code>https://api.resto.ru/places.json?ids<span class="o">=</span>9786&amp;include<span class="o">=</span>title,zon_rating
 </code></pre>
 
 <blockquote>
 <p>Заведения, в которых можно забронировать столик через ZON (возвращается zon_id):</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?ids<span class="o">=</span>300392&amp;include<span class="o">=</span>title,zon_id
+<pre class="highlight shell"><code>https://api.resto.ru/places.json?ids<span class="o">=</span>300392&amp;include<span class="o">=</span>title,zon_id
 </code></pre>
 
 <blockquote>
 <p>Со статусом заведения:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?with<span class="o">=</span>new&amp;include<span class="o">=</span>title,status
+<pre class="highlight shell"><code>https://api.resto.ru/places.json?with<span class="o">=</span>new&amp;include<span class="o">=</span>title,status
 </code></pre>
 
 <blockquote>
 <p>Заведения указанного региона:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?region<span class="o">=</span>spb
+<pre class="highlight shell"><code>https://api.resto.ru/places.json?region<span class="o">=</span>spb
 </code></pre>
 
 <blockquote>
 <p>С кольцом (Садовым, Бульварным и т.п.):</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?with<span class="o">=</span>out-of-town&amp;include<span class="o">=</span>title,ring
+<pre class="highlight shell"><code>https://api.resto.ru/places.json?with<span class="o">=</span>out-of-town&amp;include<span class="o">=</span>title,ring
 </code></pre>
 
 <blockquote>
 <p>Заведения, измененные с указанной даты:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?include<span class="o">=</span>title,updated&amp;after<span class="o">=</span>2015-04-01T13:15:58+04:00
+<pre class="highlight shell"><code>https://api.resto.ru/places.json?include<span class="o">=</span>title,updated&amp;after<span class="o">=</span>2015-04-01T13:15:58+04:00
 </code></pre>
 
 <p>Все параметры возможные при запросе places:</p>
@@ -306,7 +306,7 @@ http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
 <blockquote>
 <p>Сортировка по геоособенности:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?include<span class="o">=</span>title&amp;with<span class="o">=</span>dinamo&amp;sort_by<span class="o">=</span>dinamo
+<pre class="highlight shell"><code>https://api.resto.ru/places.json?include<span class="o">=</span>title&amp;with<span class="o">=</span>dinamo&amp;sort_by<span class="o">=</span>dinamo
 </code></pre>
 
 <p>Если в запросе указана исходная точка, то сортировка делается по расстоянию от этой точки. Во всех прочих случаях сортировка делается по <code class="prettyprint">title</code>. Можно явно указать сортировку через параметр <code class="prettyprint">sort_by</code>.
@@ -317,13 +317,13 @@ http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
 <blockquote>
 <p>Пример поиска:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?include<span class="o">=</span>title,id&amp;starts_with<span class="o">=</span>де
+<pre class="highlight shell"><code>https://api.resto.ru/places.json?include<span class="o">=</span>title,id&amp;starts_with<span class="o">=</span>де
 </code></pre>
 
 <blockquote>
 <p>Поиск с фильтрами:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?include<span class="o">=</span>title,id&amp;long<span class="o">=</span>37.84&amp;lat<span class="o">=</span>55.63&amp;radius<span class="o">=</span>300&amp;page<span class="o">=</span>2&amp;per_page<span class="o">=</span>10&amp;starts_with<span class="o">=</span>де
+<pre class="highlight shell"><code>https://api.resto.ru/places.json?include<span class="o">=</span>title,id&amp;long<span class="o">=</span>37.84&amp;lat<span class="o">=</span>55.63&amp;radius<span class="o">=</span>300&amp;page<span class="o">=</span>2&amp;per_page<span class="o">=</span>10&amp;starts_with<span class="o">=</span>де
 </code></pre>
 
 <p>Для поиска по названию заведения можно использовать <code class="prettyprint">search</code> (поиск по подстроке) или <code class="prettyprint">starts_with</code> (поиск по первым буквам названия).</p>
@@ -333,7 +333,7 @@ http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
 <blockquote>
 <p>Полный список словарей:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/vocabularies.json
+<pre class="highlight shell"><code>https://api.resto.ru/vocabularies.json
 </code></pre>
 
 <p>Для получения списка особенностей или построения иерархической навигации можно запросить у API т.н. словари (vocabularies), которые выводятся в виде хэша.</p>
@@ -345,13 +345,13 @@ http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
 <blockquote>
 <p>Локации для региона по умолчанию (Москва):</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/vocabularies/locations.json
+<pre class="highlight shell"><code>https://api.resto.ru/vocabularies/locations.json
 </code></pre>
 
 <blockquote>
 <p>Локации для указанного региона:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/vocabularies/locations.json?region<span class="o">=</span>spb
+<pre class="highlight shell"><code>https://api.resto.ru/vocabularies/locations.json?region<span class="o">=</span>spb
 </code></pre>
 
 <p>Локация (aka геоособенность), это особенность, имеющая координату.</p>
@@ -363,7 +363,7 @@ http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
 <blockquote>
 <p>Запрос особенностей:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/vocabularies/properties.json
+<pre class="highlight shell"><code>https://api.resto.ru/vocabularies/properties.json
 </code></pre>
 
 <p>Набор всевозможных параметров заведений.</p>
@@ -373,25 +373,25 @@ http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
 <blockquote>
 <p>Список регионов:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/regions.json
+<pre class="highlight shell"><code>https://api.resto.ru/regions.json
 </code></pre>
 
 <blockquote>
 <p>Регионы с русской локалью:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/regions.json?locale<span class="o">=</span>ru
+<pre class="highlight shell"><code>https://api.resto.ru/regions.json?locale<span class="o">=</span>ru
 </code></pre>
 
 <blockquote>
 <p>Информация по указанному региону:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/regions.json?ids<span class="o">=</span>msk
+<pre class="highlight shell"><code>https://api.resto.ru/regions.json?ids<span class="o">=</span>msk
 </code></pre>
 
 <blockquote>
 <p>Заведения указанного Санкт-Петербурга, вторая страница:</p>
 </blockquote>
-<pre class="highlight shell"><code>http://api.resto.ru/places.json?region<span class="o">=</span>spb&amp;page<span class="o">=</span>2
+<pre class="highlight shell"><code>https://api.resto.ru/places.json?region<span class="o">=</span>spb&amp;page<span class="o">=</span>2
 </code></pre>
 
 <p>В выдаче можно запрашивать только заведения указанного города (региона). Список регионов и их идентификаторы (которые используются для фильтров) можно получить через список регионов.</p>
@@ -415,7 +415,7 @@ http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
 <blockquote>
 <p>Пример curl-вызова:</p>
 </blockquote>
-<pre class="highlight shell"><code>curl -d <span class="s1">'key=***&amp;restoid=6901'</span> http://z-o-n.ru/_api/action_placeinforesto/partner_<span class="k">**</span>
+<pre class="highlight shell"><code>curl -d <span class="s1">'key=***&amp;restoid=6901'</span> https://z-o-n.ru/_api/action_placeinforesto/partner_<span class="k">**</span>
 </code></pre>
 
 <blockquote>
@@ -429,7 +429,7 @@ http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
       </span><span class="p">{</span><span class="w">
          </span><span class="nt">"zal_name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Vinoroom"</span><span class="p">,</span><span class="w">
          </span><span class="nt">"zal_kol_seat"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"zal_pict"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://z-o-n.ru/i/zals/zal389.png"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"zal_pict"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"https://z-o-n.ru/i/zals/zal389.png"</span><span class="p">,</span><span class="w">
          </span><span class="nt">"zal_smoke"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
          </span><span class="nt">"zal_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"389"</span><span class="w">
       </span><span class="p">},</span><span class="w">
@@ -437,7 +437,7 @@ http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
          </span><span class="nt">"zal_smoke"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
          </span><span class="nt">"zal_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"390"</span><span class="p">,</span><span class="w">
          </span><span class="nt">"zal_kol_seat"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">67</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"zal_pict"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://z-o-n.ru/i/zals/zal390.png"</span><span class="p">,</span><span class="w">
+         </span><span class="nt">"zal_pict"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"https://z-o-n.ru/i/zals/zal390.png"</span><span class="p">,</span><span class="w">
          </span><span class="nt">"zal_name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Terrassa"</span><span class="w">
       </span><span class="p">}</span><span class="w">
    </span><span class="p">]</span><span class="w">
@@ -469,7 +469,7 @@ http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
 <blockquote>
 <p>Пример curl-вызова:</p>
 </blockquote>
-<pre class="highlight shell"><code>curl -d <span class="s1">'key=***&amp;restoid=7477'</span> http://z-o-n.ru/_api/action_worktime/partner_<span class="k">**</span>
+<pre class="highlight shell"><code>curl -d <span class="s1">'key=***&amp;restoid=7477'</span> https://z-o-n.ru/_api/action_worktime/partner_<span class="k">**</span>
 </code></pre>
 
 <blockquote>
@@ -494,7 +494,7 @@ http://api.resto.ru/places.json?id<span class="o">=</span>7477,4846
 <blockquote>
 <p>Пример curl-вызова:</p>
 </blockquote>
-<pre class="highlight shell"><code>curl -d <span class="s1">'key=***&amp;id=12081&amp;&amp;year=2016&amp;month=02&amp;day=07&amp;hour=15&amp;minutes=55&amp;persons=1'</span> http://z-o-n.ru/_api/action_gettablelist/partner_<span class="k">**</span>
+<pre class="highlight shell"><code>curl -d <span class="s1">'key=***&amp;id=12081&amp;&amp;year=2016&amp;month=02&amp;day=07&amp;hour=15&amp;minutes=55&amp;persons=1'</span> https://z-o-n.ru/_api/action_gettablelist/partner_<span class="k">**</span>
 </code></pre>
 
 <blockquote>
@@ -565,7 +565,7 @@ URL'ы фотографий (url, 140x102url, 229x238url) выдаются то�
 <blockquote>
 <p>Пример curl-вызова:</p>
 </blockquote>
-<pre class="highlight shell"><code>curl -d <span class="s1">'key=***&amp;table_id=86'</span> http://z-o-n.ru/_api/action_gettablecoord/partner_<span class="k">**</span>
+<pre class="highlight shell"><code>curl -d <span class="s1">'key=***&amp;table_id=86'</span> https://z-o-n.ru/_api/action_gettablecoord/partner_<span class="k">**</span>
 </code></pre>
 
 <blockquote>
@@ -592,7 +592,7 @@ URL'ы фотографий (url, 140x102url, 229x238url) выдаются то�
 <blockquote>
 <p>Пример curl-вызова:</p>
 </blockquote>
-<pre class="highlight shell"><code>curl -d <span class="s1">'key=***&amp;name=рно'</span> http://z-o-n.ru/_api/action_search/partner_<span class="k">**</span>
+<pre class="highlight shell"><code>curl -d <span class="s1">'key=***&amp;name=рно'</span> https://z-o-n.ru/_api/action_search/partner_<span class="k">**</span>
 </code></pre>
 
 <blockquote>
@@ -637,7 +637,7 @@ URL'ы фотографий (url, 140x102url, 229x238url) выдаются то�
 <blockquote>
 <p>Пример curl-вызова:</p>
 </blockquote>
-<pre class="highlight shell"><code>curl -d <span class="s1">'key=***&amp;latitude=55.45&amp;longitude=37.36'</span> http://z-o-n.ru/_api/action_snear/partner_<span class="k">**</span>
+<pre class="highlight shell"><code>curl -d <span class="s1">'key=***&amp;latitude=55.45&amp;longitude=37.36'</span> https://z-o-n.ru/_api/action_snear/partner_<span class="k">**</span>
 </code></pre>
 
 <blockquote>
@@ -744,12 +744,12 @@ URL'ы фотографий (url, 140x102url, 229x238url) выдаются то�
 
 <aside class="notice">
 Чтобы сделать заказ столика нужно знать ID заведения. По ID заведения в базе Resto узнать ID в базе ZON, можно через запрос `placeinforesto`:<br/>
-<code>curl -d 'key=***&restoid=1021' http://z-o-n.ru/_api/action_placeinforesto/partner_**</code>
+<code>curl -d 'key=***&restoid=1021' https://z-o-n.ru/_api/action_placeinforesto/partner_**</code>
 <br/>
 <br/>
 
 После чего:<br/>
-<code>curl -d "key=***&placeid=9066&order[persons]=1&order[year]=2015&order[month]=08&order[day]=04&order[hour]=17&order[minutes]=45&order[phone]=%2B7%20(916)%20878-38-77&order[email]=hmizgir%40gmail.com&order[comment]=test&order[name]=test" http://z-o-n.ru/_api/action_order/partner_**</code>
+<code>curl -d "key=***&placeid=9066&order[persons]=1&order[year]=2015&order[month]=08&order[day]=04&order[hour]=17&order[minutes]=45&order[phone]=%2B7%20(916)%20878-38-77&order[email]=hmizgir%40gmail.com&order[comment]=test&order[name]=test" https://z-o-n.ru/_api/action_order/partner_**</code>
 <br/>
 <br/>
 
@@ -838,7 +838,7 @@ URL'ы фотографий (url, 140x102url, 229x238url) выдаются то�
 Пример gettablelist-запроса в ruby:<br/>
 <code>
 params = {'id' => 2, 'persons' => 2, 'smoke' => 1, 'key' => '***'}<br/>
-url = 'http://z-o-n.ru/_api/action_gettablelist/partner_**'<br/>
+url = 'https://z-o-n.ru/_api/action_gettablelist/partner_**'<br/>
 tables_info = JSON.parse RestClient.post(url, params, :content_type => :json, :accept => :json).body<br/>
 table_id = tables_info['tables'].last['table_id']
 </code>
